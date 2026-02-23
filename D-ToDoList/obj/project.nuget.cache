@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "dgSpecHash": "hE9ggxnDUa4=",
+  "success": false,
+  "projectFilePath": "C:\\Users\\geose\\RiderProjects\\D-ToDoList\\D-ToDoList\\D-ToDoList.csproj",
+  "expectedPackageFiles": [],
+  "logs": [
+    {
+      "code": "NU1012",
+      "level": "Error",
+      "message": "Platform version is not present for one or more target frameworks, even though they have specified a platform: net10.0-ios, net10.0-maccatalyst",
+      "projectPath": "C:\\Users\\geose\\RiderProjects\\D-ToDoList\\D-ToDoList\\D-ToDoList.csproj",
+      "filePath": "C:\\Users\\geose\\RiderProjects\\D-ToDoList\\D-ToDoList\\D-ToDoList.csproj",
+      "targetGraphs": []
+    }
+  ]
+}
