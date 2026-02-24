@@ -2,22 +2,30 @@
 
 public partial class MainPage : ContentPage
 {
-    int count = 0;
+    public string dateToday { get; set; } = DateTime.Now.ToString("dddd, MMMMd");
 
+    public void ToggleTheme(Object sender, EventArgs e)
+    {
+        
+    }
     public MainPage()
     {
         InitializeComponent();
+        BindingContext = this;
     }
 
-    private void OnCounterClicked(object? sender, EventArgs e)
+    public void TaskCheck(Object sender, EventArgs e)
     {
-        count++;
-
-        if (count == 1)
-            CounterBtn.Text = $"Clicked {count} time";
-        else
-            CounterBtn.Text = $"Clicked {count} times";
-
-        SemanticScreenReader.Announce(CounterBtn.Text);
+        
     }
+    public void TaskEdit(Object sender, EventArgs e)
+        {
+            
+        }
+    public void TaskDelete(Object sender, EventArgs e)
+    {
+        
+    }
+    
+    
 }
