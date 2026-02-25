@@ -23,11 +23,14 @@ public partial class MainPage : ContentPage
             public int totalTasks => tasks.Count;
             public double taskPercentage => totalTasks == 0 ? 0 : ((double)completedTasks / totalTasks) * 100;
 
-            public string statusString()
+            public string statusString
             {
-                if(totalTasks == 0) return "No Tasks Yet!";
-                else if (completedTasks<totalTasks) return $"{totalTasks - completedTasks} Remaining!";
-                else return "All Tasks Completed! You Did It.";
+                get
+                {
+                    if (totalTasks == 0) return "No Tasks Yet!";
+                    int rem = totalTasks - completedTasks;
+                    return completedTasks < totalTasks ? $"{rem} Task{(rem > 1 ? "s" : string.Empty)} Remaining!" : "All Tasks Completed!";
+                }
             }
             
 
