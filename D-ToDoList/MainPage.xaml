@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="D_ToDoList.MainPage">
 
-        <Grid RowDefinitions="auto, auto, auto, *">
+        <Grid RowDefinitions="auto, auto, auto, *, auto">
             
             <!-- Header -->
             <Border Grid.Row="0" BackgroundColor="{StaticResource SurfaceSecondary}" Stroke="{StaticResource BorderPrimary}" StrokeShape="RoundRectangle 12" Padding="10" Margin="10">
@@ -11,19 +11,26 @@
 					<!-- HEADER: Left Side -->
 					<Grid ColumnDefinitions="*,*">
 						<VerticalStackLayout Grid.Column = "0" HorizontalOptions = "Start">
-							<Label Text = "ToDoList" FontSize="Title" />
-							<Label Text="{Binding dateToday}" FontSize="Subtitle" />
+							<Label Text = "ToDoList" FontSize="Title" FontFamily="PoppinsBlack" />
+							<Label Text="{Binding dateToday}" Margin ="0, -15, 0, 0" CharacterSpacing="-1" FontSize="Micro" FontFamily="PoppinsRegular" />
 						</VerticalStackLayout>
 
 					<!-- HEADER: Right Side -->
-						<VerticalStackLayout Grid.Column = "1" HorizontalOptions = "End">
-							<!-- Progress Bar Pie Chart, to be implemented later -->
-							<VerticalStackLayout>
-								<!-- X of Y -->
-								<!-- completed -->
+						<HorizontalStackLayout Grid.Column = "1" HorizontalOptions = "End">
+							<Button Text="{Binding taskPercentage, StringFormat='{0:F0}%'}" Margin="5, 0" HorizontalOptions = "Center" FontSize="Small" HeightRequest="25" WidthRequest="50" />
+							<VerticalStackLayout Margin="5, 0" HorizontalOptions="Center">
+								<Label>
+									<Label.Text>
+										<MultiBinding StringFormat="{}{0} of {1}%">
+											<Binding Path="completedTasks" />
+											<Binding Path="totalTasks" />
+										</MultiBinding>
+									</Label.Text>
+								</Label>
+								<Label Text="completed" FontSize="Micro" FontFamily="PoppinsRegular" HorizontalOptions="Center" />
 							</VerticalStackLayout>
-							<!-- <Button Clicked="ToggleTheme"> -->
-						</VerticalStackLayout>
+							<Button Clicked="ToggleTheme" Text="🌙" Margin="5, 0" FontSize="Small" CornerRadius="15" HeightRequest="30" WidthRequest="30" />
+						</HorizontalStackLayout>
 					</Grid>
 
             </Border>   
@@ -42,76 +49,59 @@
 
             <!-- Task Category (All, Active, Done) -->
 			<Border Grid.Row="2" BackgroundColor="{StaticResource SurfaceSecondary}" Stroke="{StaticResource BorderSubtle}" StrokeShape="RoundRectangle 6" Padding="4" Margin="5">
-				<Grid ColumnDefinitions="auto, auto, auto, auto">
-					<Button Grid.Column="0" Text="T" />
-					<Button Grid.Column="1" Text = "All" />
-					<Button Grid.Column="2" Text = "Active" />
-					<Button Grid.Column="3" Text = "Done" />
+				<Label Text="Task Category" FontSize="Small" FontSize="PoppinsBold" x/>
+				<Grid ColumnDefinitions="*, *, *">
+					<Button Grid.Column="0" Text = "All" />
+					<Button Grid.Column="1" Text = "Active" />
+					<Button Grid.Column="2" Text = "Done" />
 				</Grid>
 			</Border>
 
 
 
             <!-- Task Templates -->
-			<Border Grid.Row="3" BackgroundColor="{StaticResource SurfaceElevated}" Stroke="{StaticResource BorderPrimary}" StrokeShape="RoundRectangle 10" Padding="8" Margin="0, 4">
+			<Border Grid.Row="3" BackgroundColor="{StaticResource SurfaceSecondary}" StrokeShape="RoundRectangle 10" Padding="8" Margin="0, 4">
 			<ScrollView>
 				<VerticalStackLayout>
 
 					<!-- TaskBox HardCoded -->
-					<Border Grid.Row="0">
+					<Border Grid.Row="0" Margin="3">
 						<Grid ColumnDefinitions="25, *, 25, 25">
-							<Button Grid.Column="0" Text="v" Clicked="TaskCheck" />
+							<Button Grid.Column="0" Text="v" Clicked="TaskCheck" HeightRequest="25" WidthRequest="20" HorizontalOptions="Center" />
 								<Border Grid.Column="1">
 									<Entry Text="SampleText" />
 								</Border>
-							<Button Grid.Column="2" Text="W" Clicked="TaskEdit" />
-							<Button Grid.Column="3" Text="D" Clicked="TaskDelete" />
+							<Button Grid.Column="2" Text="W" Clicked="TaskEdit" HeightRequest="25" WidthRequest="25" HorizontalOptions="Center" />
+							<Button Grid.Column="3" Text="D" Clicked="TaskDelete" HeightRequest="25" WidthRequest="25" HorizontalOptions="Center" />
 						</Grid>
 					</Border>
 					<!-- TaskBox HardCoded -->
-					<Border Grid.Row="1">
+					<Border Grid.Row="2" Margin="3">
 						<Grid ColumnDefinitions="25, *, 25, 25">
-							<Button Grid.Column="0" Text="v" Clicked="TaskCheck" />
+							<Button Grid.Column="0" Text="v" Clicked="TaskCheck" HeightRequest="25" WidthRequest="20" HorizontalOptions="Center" />
 								<Border Grid.Column="1">
 									<Entry Text="SampleText" />
 								</Border>
-							<Button Grid.Column="2" Text="W" Clicked="TaskEdit" />
-							<Button Grid.Column="3" Text="D" Clicked="TaskDelete" />
+							<Button Grid.Column="2" Text="W" Clicked="TaskEdit" HeightRequest="25" WidthRequest="25" HorizontalOptions="Center" />
+							<Button Grid.Column="3" Text="D" Clicked="TaskDelete" HeightRequest="25" WidthRequest="25" HorizontalOptions="Center" />
 						</Grid>
 					</Border>
 					<!-- TaskBox HardCoded -->
-					<Border Grid.Row="2">
+					<Border Grid.Row="2" Margin="3">
 						<Grid ColumnDefinitions="25, *, 25, 25">
-							<Button Grid.Column="0" Text="v" Clicked="TaskCheck" />
+							<Button Grid.Column="0" Text="v" Clicked="TaskCheck" HeightRequest="25" WidthRequest="20" HorizontalOptions="Center" />
 								<Border Grid.Column="1">
 									<Entry Text="SampleText" />
 								</Border>
-							<Button Grid.Column="2" Text="W" Clicked="TaskEdit" />
-							<Button Grid.Column="3" Text="D" Clicked="TaskDelete" />
+							<Button Grid.Column="2" Text="W" Clicked="TaskEdit" HeightRequest="25" WidthRequest="25" HorizontalOptions="Center" />
+							<Button Grid.Column="3" Text="D" Clicked="TaskDelete" HeightRequest="25" WidthRequest="25" HorizontalOptions="Center" />
 						</Grid>
 					</Border>
-					<!-- TaskBox HardCoded -->
-					<Border Grid.Row="3">
-						<Grid ColumnDefinitions="25, *, 25, 25">
-							<Button Grid.Column="0" Text="v" Clicked="TaskCheck" />
-								<Border Grid.Column="1">
-									<Entry Text="SampleText" />
-								</Border>
-							<Button Grid.Column="2" Text="W" Clicked="TaskEdit" />
-							<Button Grid.Column="3" Text="D" Clicked="TaskDelete" />
-						</Grid>
-					</Border>
-					<!-- TaskBox HardCoded -->
-					<Border Grid.Row="4">
-						<Grid ColumnDefinitions="25, *, 25, 25">
-							<Button Grid.Column="0" Text="v" Clicked="TaskCheck" />
-								<Border Grid.Column="1">
-									<Entry Text="SampleText" />
-								</Border>
-							<Button Grid.Column="2" Text="W" Clicked="TaskEdit" />
-							<Button Grid.Column="3" Text="D" Clicked="TaskDelete" />
-						</Grid>
-					</Border>
+					
+				<!-- X Tasks Remaining! -->
+				<Border Grid.Row="4" HorizontalOptions="Center" VerticalOptions="End">
+					<Label Text="{Binding statusString}" />
+				</Border>
 
 				</VerticalStackLayout>
 			</ScrollView>
