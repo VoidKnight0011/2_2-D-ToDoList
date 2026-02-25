@@ -1,10 +1,12 @@
-﻿using Android.Widget;
+﻿using System.Collections.ObjectModel;
+// using Android.Widget;
 using Microsoft.Maui.ApplicationModel;
 
 namespace D_ToDoList;
 
 public partial class MainPage : ContentPage
 {
+    public ObservableCollection<ToDoClass> tasks { get; set; } = new();
     public string dateToday { get; set; } = DateTime.Now.ToString("dddd,  MMMM d");
     private int _completedTasks = 0;
             public int completedTasks 
@@ -18,9 +20,15 @@ public partial class MainPage : ContentPage
                     OnPropertyChanged(nameof(statusString));
                 }
             }
-            public int totalTasks { get; set; } = 12;
-            public double taskPercentage => ((double)completedTasks / (double)totalTasks) * 100;
-            public string statusString => (completedTasks<totalTasks) ? $"{totalTasks - completedTasks} Remaining!" : "All Tasks Completed! You Did It.";
+            public int totalTasks => tasks.Count;
+            public double taskPercentage => totalTasks == 0 ? 0 : ((double)completedTasks / totalTasks) * 100;
+
+            public string statusString()
+            {
+                if(totalTasks == 0) return "No Tasks Yet!";
+                else if (completedTasks<totalTasks) return $"{totalTasks - completedTasks} Remaining!";
+                else return "All Tasks Completed! You Did It.";
+            }
             
 
         public void ToggleTheme(Object? sender, EventArgs e)
@@ -45,16 +53,35 @@ public partial class MainPage : ContentPage
                 : "icon_sun.png";
         }
         
-    public MainPage()
-    {
-        InitializeComponent();
-        Application.Current.UserAppTheme = AppTheme.Unspecified;
-        BindingContext = this;
-    }
+                    public MainPage()
+                    {
+                        InitializeComponent();
+                        Application.Current.UserAppTheme = AppTheme.Unspecified;
+                        BindingContext = this;
+                    }
 
     public void TaskCheck(Object sender, EventArgs e)
     {
         completedTasks++;
+    }
+
+    public void TaskAdd(Object sender, EventArgs e)
+    {
+        if (!string.IsNullOrWhiteSpace(taskTitle.Text))
+        {
+            tasks.Add(new ToDoClass
+            {
+                title = taskTitle.Text,
+                id = tasks.Count + 1
+            });
+            
+            OnPropertyChanged(nameof(totalTasks));
+            OnPropertyChanged(nameof(taskPercentage));
+            OnPropertyChanged(nameof(statusString));
+            
+            taskTitle.Text = string.Empty;
+            taskTitle.Unfocus();
+        }
     }
     public void TaskEdit(Object sender, EventArgs e)
         {

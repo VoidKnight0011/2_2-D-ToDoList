@@ -40,8 +40,8 @@
             <!-- Add Task -->
 			<Border Grid.Row="1" BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceSecondary}, Dark={StaticResource SurfaceSecondaryDark}}" StrokeShape="RoundRectangle 12" Padding="8" Margin="10, 5">
 				<Grid ColumnDefinitions="*, 30">
-					<Entry x:Name="TaskTitle" Grid.Column="0" Placeholder = "What to do for today?" BackgroundColor="Transparent" Margin="5, 5, 20, 5" />
-					<Button Grid.Column="1" ImageSource="icon_add.png" HeightRequest="30" WidthRequest="30" Margin="5, 5, 20, 5" Padding="3" FontFamily="PoppinsRegular" BackgroundColor="{AppThemeBinding Light={StaticResource SurfacePrimaryDark}, Dark={StaticResource SurfacePrimary}}" />
+					<Entry x:Name="taskTitle" Grid.Column="0" Placeholder = "What to do for today?" BackgroundColor="Transparent" Margin="10, 5, 10, 5" />
+					<Button Grid.Column="1" ImageSource="icon_add.png" HeightRequest="30" WidthRequest="30" Margin="5, 5, 20, 5" Padding="3" FontFamily="PoppinsRegular" BackgroundColor="{AppThemeBinding Light={StaticResource SurfacePrimaryDark}, Dark={StaticResource SurfacePrimary}}" Clicked="TaskAdd" />
 				</Grid>
 			</Border>
 
@@ -61,24 +61,28 @@
 
             <!-- Task Templates -->
 			<Border Grid.Row="3" BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceSecondary}, Dark={StaticResource SurfaceSecondaryDark}}"  StrokeShape="RoundRectangle 10" Padding="8" Margin="10, 5">
-			<ScrollView>
-				<VerticalStackLayout>
+				<ListView x:Name="ToDoList" ItemsSource="{Binding tasks}" HasUnevenRows="True" SeparatorVisibility="None" BackgroundColor="Transparent">
+					<ListView.ItemTemplate>
 
-					<!-- TaskBox HardCoded -->
-					<Border Grid.Row="0" Margin="3" StrokeThickness="0">
-						<Grid ColumnDefinitions="24, *, 36, 36">
-							<Button Grid.Column="0" x:Name="taskStatus" BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceSecondary}, Dark={StaticResource SurfaceSecondaryDark}}" BorderWidth="5" BorderColor="{StaticResource AccentPrimary}" Clicked="TaskCheck" HeightRequest="24" WidthRequest="24" HorizontalOptions="Center" CornerRadius="12" Margin="5, 0" />
-								<Border Grid.Column="1" StrokeThickness="0">
-									<Entry x:Name="taskTitle" Text="SampleText" BackgroundColor="Transparent" Margin="5, 10" />
+						<!-- TaskBox HardCoded -->
+						<DataTemplate>
+							<ViewCell>
+								<Border Grid.Row="0" Margin="3" StrokeThickness="0">
+									<Grid ColumnDefinitions="24, *, 36, 36">
+										<Button Grid.Column="0" BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceSecondary}, Dark={StaticResource SurfaceSecondaryDark}}" BorderWidth="5" BorderColor="{StaticResource AccentPrimary}" HeightRequest="24" WidthRequest="24" HorizontalOptions="Center" CornerRadius="12" Margin="5, 0" Clicked="TaskCheck" CommandParameter="{Binding .}" />
+											<Border Grid.Column="1" StrokeThickness="0">
+												<Entry Text="{Binding title}" BackgroundColor="Transparent" Margin="5, 10" />
+											</Border>
+										<Button ImageSource="icon_edit.png" BackgroundColor="Transparent" Grid.Column="2" Clicked="TaskEdit" CommandParameter="{Binding .}" HeightRequest="36" WidthRequest="36" HorizontalOptions="Center" Padding="5" CornerRadius="18" Margin="5, 10" />
+										<Button ImageSource="icon_delete.png" BackgroundColor="Transparent" Grid.Column="3" Clicked="TaskDelete" CommandParameter="{Binding .}" HeightRequest="36" WidthRequest="36" HorizontalOptions="Center" Padding="5" CornerRadius="18" Margin="5, 10" />
+									</Grid>
 								</Border>
-							<Button ImageSource="icon_edit.png" BackgroundColor="Transparent" Grid.Column="2" Clicked="TaskEdit" HeightRequest="36" WidthRequest="36" HorizontalOptions="Center" Padding="5" CornerRadius="18" Margin="5, 10" />
-							<Button ImageSource="icon_delete.png" BackgroundColor="Transparent" Grid.Column="3" Clicked="TaskDelete" HeightRequest="36" WidthRequest="36" HorizontalOptions="Center" Padding="5" CornerRadius="18" Margin="5, 10" />
-						</Grid>
-					</Border>
-					
+							</ViewCell>
+						</DataTemplate>
 
-				</VerticalStackLayout>
-			</ScrollView>
+					</ListView.ItemTemplate>
+				</ListView>
+
 			</Border>
 
 				<!-- X Tasks Remaining! -->
