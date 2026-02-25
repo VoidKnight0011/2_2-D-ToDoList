@@ -1,4 +1,6 @@
-﻿namespace D_ToDoList;
+﻿using Microsoft.Maui.ApplicationModel;
+
+namespace D_ToDoList;
 
 public partial class MainPage : ContentPage
 {
@@ -20,10 +22,11 @@ public partial class MainPage : ContentPage
             public string statusString => (completedTasks<totalTasks) ? $"{totalTasks - completedTasks} Remaining!" : "All Tasks Completed! You Did It.";
             
 
-        public void ToggleTheme(Object sender, EventArgs e)
-    {
-        
-    }
+        public void ToggleTheme(Object? sender, EventArgs e)
+        {
+            if (Application.Current.UserAppTheme == AppTheme.Dark) Application.Current.UserAppTheme = AppTheme.Light;
+            else Application.Current.UserAppTheme = AppTheme.Dark;
+        }
     public MainPage()
     {
         InitializeComponent();

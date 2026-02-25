@@ -2,29 +2,71 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
+    <!-- ACCENT: USE: Primary buttons, checkmarks, active icons, selected tabs, progress indicators, BorderFocus -->
     <Color x:Key="AccentPrimary">#4169E1</Color>
-    <Color x:Key="AccentHover">#3558C8</Color>
-    <Color x:Key="AccentSubtle">#E8EEFF</Color>
+    <!-- ACCENT: USE: Slightly darker blue for pressed/hover states -->
+    <Color x:Key="AccentSecondary">#2D50C8</Color>
+    <!-- ACCENT: USE: Muted blue for subtle highlights, selected backgrounds, active filter chips -->
+    <Color x:Key="AccentTertiary">#1A3A9E</Color>
 
+    <!-- SURFACE LIGHT: USE: Main page background -->
     <Color x:Key="SurfacePrimary">#FFFFFF</Color>
+    <!-- SURFACE LIGHT: USE: Cards, task containers, header, grouped panels -->
     <Color x:Key="SurfaceSecondary">#F4F6FA</Color>
+    <!-- SURFACE LIGHT: USE: Input fields, nested containers, secondary panels -->
     <Color x:Key="SurfaceTertiary">#E9ECF3</Color>
+    <!-- SURFACE LIGHT: USE: Elevated cards, modals, dropdowns -->
     <Color x:Key="SurfaceElevated">#FFFFFF</Color>
 
+    <!-- SURFACE DARK: USE: Main page background -->
+    <Color x:Key="SurfacePrimaryDark">#0F1115</Color>
+    <!-- SURFACE DARK: USE: Cards, task containers, header, grouped panels -->
+    <Color x:Key="SurfaceSecondaryDark">#181C23</Color>
+    <!-- SURFACE DARK: USE: Input fields, nested containers, secondary panels -->
+    <Color x:Key="SurfaceTertiaryDark">#222834</Color>
+    <!-- SURFACE DARK: USE: Elevated cards, modals, dropdowns -->
+    <Color x:Key="SurfaceElevatedDark">#1F2530</Color>
+
+    <!-- TEXT LIGHT: USE: Task titles, main labels, important content -->
     <Color x:Key="TextPrimary">#111827</Color>
+    <!-- TEXT LIGHT: USE: Descriptions, timestamps, supporting labels -->
     <Color x:Key="TextSecondary">#4B5563</Color>
+    <!-- TEXT LIGHT: USE: Placeholders, disabled text, subtle metadata -->
     <Color x:Key="TextMuted">#9CA3AF</Color>
+
+    <!-- TEXT DARK: USE: Task titles, main labels, important content -->
+    <Color x:Key="TextPrimaryDark">#F3F4F6</Color>
+    <!-- TEXT DARK: USE: Descriptions, timestamps, supporting labels -->
+    <Color x:Key="TextSecondaryDark">#A1A1AA</Color>
+    <!-- TEXT DARK: USE: Placeholders, disabled text, subtle metadata -->
+    <Color x:Key="TextMutedDark">#6B7280</Color>
+
+    <!-- TEXT: USE: Text inside any blue/accent background -->
     <Color x:Key="TextOnAccent">#FFFFFF</Color>
 
+    <!-- BORDER LIGHT: USE: Card outlines, dividers, section separators -->
     <Color x:Key="BorderPrimary">#E5E7EB</Color>
+    <!-- BORDER LIGHT: USE: Soft dividers, minimal list item separators -->
     <Color x:Key="BorderSubtle">#F1F3F8</Color>
+
+    <!-- BORDER DARK: USE: Card outlines, dividers, section separators -->
+    <Color x:Key="BorderPrimaryDark">#2A3140</Color>
+    <!-- BORDER DARK: USE: Soft dividers, minimal list item separators -->
+    <Color x:Key="BorderSubtleDark">#232A36</Color>
+
+    <!-- BORDER: USE: Focused input outline, selected field, focus ring -->
     <Color x:Key="BorderFocus">#4169E1</Color>
 
+    <!-- STATUS: USE: Completed tasks, success messages, confirmation -->
     <Color x:Key="Success">#16A34A</Color>
+    <!-- STATUS: USE: Due soon, caution messages -->
     <Color x:Key="Warning">#F59E0B</Color>
+    <!-- STATUS: USE: Delete buttons, overdue tasks, error messages -->
     <Color x:Key="Danger">#DC2626</Color>
 
+    <!-- MISC: USE: Disabled buttons, inactive icons -->
     <Color x:Key="Disabled">#D1D5DB</Color>
+    <!-- MISC: USE: Modal backdrop, dimmed overlay -->
     <Color x:Key="Overlay">#00000020</Color>
 
 </ResourceDictionary>
