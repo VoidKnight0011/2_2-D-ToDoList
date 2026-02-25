@@ -11,6 +11,7 @@ public class ToDoClass: INotifyPropertyChanged
     int _id { get; set; }
     string _title { get; set; }
     string _detail { get; set; }
+    private bool isFinished;
    
 
     public int id { 
