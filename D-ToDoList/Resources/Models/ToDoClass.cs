@@ -1,4 +1,7 @@
-﻿namespace D_ToDoList;
+﻿using System.Net.Mime;
+using Microsoft.Maui;
+
+namespace D_ToDoList;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -11,9 +14,18 @@ public class ToDoClass: INotifyPropertyChanged
     int _id { get; set; }
     string _title { get; set; }
     string _detail { get; set; }
-    private bool isFinished;
-   
+    public bool isChecked { get; set; }
+        public bool _isEditing = false;
+        public bool isntEditing => !(isEditing);
+    
+    public TextDecorations labelDecor => isChecked ? TextDecorations.Strikethrough : TextDecorations.None;
 
+    public bool isEditing
+    {
+        get { return _isEditing; }
+        set { _isEditing = value; OnPropertyChanged(nameof(isEditing)); OnPropertyChanged(nameof(isntEditing));
+        }
+    }
     public int id { 
         get { return _id; } 
         set { _id = value; OnPropertyChanged(nameof(id));} 

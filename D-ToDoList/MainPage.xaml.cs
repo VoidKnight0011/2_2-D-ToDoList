@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 // using Android.Widget;
 using Microsoft.Maui.ApplicationModel;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Graphics;
 
 namespace D_ToDoList;
 
@@ -63,9 +65,15 @@ public partial class MainPage : ContentPage
                         BindingContext = this;
                     }
 
-    public void TaskCheck(Object sender, EventArgs e)
+    public void TaskCheck(Object? sender, EventArgs e)
     {
-        completedTasks++;
+        var btn = sender as Button;
+        var task = btn.CommandParameter as ToDoClass;
+
+        task.isChecked = !(task.isChecked);
+        btn.BackgroundColor = task.isChecked ? Color.FromArgb("#4169E1") : Colors.Transparent;
+        if (task.isChecked) completedTasks++;
+        else completedTasks--;
     }
 
     public void TaskAdd(Object sender, EventArgs e)
@@ -86,10 +94,13 @@ public partial class MainPage : ContentPage
             taskTitle.Unfocus();
         }
     }
+    
     public void TaskEdit(Object sender, EventArgs e)
-        {
-            
-        }
+    {
+        var btn = sender as Button;
+        var task = btn.CommandParameter as ToDoClass;
+        task.isEditing = !(task.isEditing);
+    }
     public void TaskDelete(Object sender, EventArgs e)
     {
         
