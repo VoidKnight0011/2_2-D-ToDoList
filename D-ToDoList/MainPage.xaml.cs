@@ -23,7 +23,7 @@ public partial class MainPage : ContentPage
                 }
             }
             public int totalTasks => tasks.Count;
-            public double taskPercentage => totalTasks == 0 ? 0 : ((double)completedTasks / totalTasks) * 100;
+            public double taskPercentage => totalTasks == 0 ? 0 : Math.Min(100, ((double)completedTasks / totalTasks) * 100);
 
             public string statusString
             {
@@ -74,6 +74,8 @@ public partial class MainPage : ContentPage
         btn.BackgroundColor = task.isChecked ? Color.FromArgb("#4169E1") : Colors.Transparent;
         if (task.isChecked) completedTasks++;
         else completedTasks--;
+        
+        Console.WriteLine($"taskPercentage: {taskPercentage}, completed: {completedTasks}, total: {totalTasks}");
     }
 
     public void TaskAdd(Object sender, EventArgs e)
@@ -101,10 +103,45 @@ public partial class MainPage : ContentPage
         var task = btn.CommandParameter as ToDoClass;
         task.isEditing = !(task.isEditing);
     }
-    public void TaskDelete(Object sender, EventArgs e)
+    public async void TaskDelete(Object? sender, EventArgs e)
     {
+        var btn = sender as Button;
+        var task = btn.CommandParameter as ToDoClass;
+        
+        bool answer = await DisplayAlert("Delete Task", "Are you sure?", "Yes", "No");
+        if (answer) tasks.Remove(task);
+    }
+
+    public ObservableCollection<ToDoClass> filtered { get; set; } = new();
+    public string activeFilter { get; set; } = "All";
+    public void FilterList()
+    {
+        filtered.Clear();
+        foreach (var t in tasks)
+        {
+            if(activeFilter == "All") filtered.Add(t);
+            else if(activeFilter == "Active" && !t.isChecked) filtered.Add(t);
+            else if(activeFilter == "Done" && t.isChecked) filtered.Add(t);
+        }
         
     }
+
+        public void FilterAll(Object? sender, EventArgs e)
+        {
+            activeFilter = "All";
+            FilterList();
+        }
+        
+        public void FilterActive(Object? sender, EventArgs e)
+        {
+            activeFilter = "Active";
+            FilterList();
+        }
+        public void FilterDone(Object? sender, EventArgs e)
+        {
+            activeFilter = "Done";
+            FilterList();
+        }
     
     
 }

@@ -1,15 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="D_ToDoList.MainPage">
+             x:Class="D_ToDoList.MainPage"
+			 xmlns:control="clr-namespace:Syncfusion.Maui.ProgressBar;assembly=Syncfusion.Maui.ProgressBar">
 
         <Grid RowDefinitions="auto, auto, auto, *, auto" BackgroundColor="{AppThemeBinding Light={StaticResource SurfacePrimary}, Dark={StaticResource SurfacePrimaryDark}}">
             
             <!-- Header -->
             <Border Grid.Row="0" BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceSecondary}, Dark={StaticResource SurfaceSecondaryDark}}" StrokeShape="RoundRectangle 12" Padding="10" Margin="10, 10, 10, 5">
 
-					<!-- HEADER: Left Side -->
+
 					<Grid ColumnDefinitions="*,*">
+					<!-- HEADER: Left Side -->
 						<VerticalStackLayout Grid.Column = "0" HorizontalOptions = "Start">
 							<Label Text = "ToDoList" FontSize="Title" FontFamily="PoppinsBlack" TextColor="{AppThemeBinding Light={StaticResource TextPrimary}, Dark={StaticResource TextPrimaryDark}}" />
 							<Label Text="{Binding dateToday}" Margin ="0, -15, 0, 0" CharacterSpacing="-1" FontSize="Micro" FontFamily="PoppinsRegular" TextColor="{AppThemeBinding Light={StaticResource TextMuted}, Dark={StaticResource TextMutedDark}}" />
@@ -17,7 +19,12 @@
 
 					<!-- HEADER: Right Side -->
 						<HorizontalStackLayout Grid.Column = "1" HorizontalOptions = "End">
-							<Button Text="{Binding taskPercentage, StringFormat='{0:F0}%'}" Margin="5" HorizontalOptions = "Center" FontSize="Small" HeightRequest="25" WidthRequest="50" TextColor="{StaticResource TextOnAccent}" Padding="0" />
+						<Grid HeightRequest="40" WidthRequest="40" Margin="7, 5">
+							<control:SfCircularProgressBar Minimum="0" Progress="{Binding taskPercentage}" Maximum="100" 
+														BackgroundColor="Transparent" TrackFill="{StaticResource AccentTertiary}" ProgressFill="{StaticResource AccentPrimary}" TrackThickness="6"
+														ProgressThickness="6" AnimationEasing="{x:Static Easing.SinInOut}" AnimationDuration="1000" />
+							<Label Text="{Binding taskPercentage, StringFormat='{0:F0}%'}" FontSize="8" FontFamily="PoppinsRegular" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{AppThemeBinding Light={StaticResource TextPrimary}, Dark={StaticResource TextPrimaryDark}}" />
+						</Grid>
 							<VerticalStackLayout Margin="5" HorizontalOptions="Center">
 								<Label TextColor="{AppThemeBinding Light={StaticResource TextSecondary}, Dark={StaticResource TextSecondaryDark}}">
 									<Label.Text>
@@ -27,10 +34,11 @@
 										</MultiBinding>
 									</Label.Text>
 								</Label>
-								<Label Text="completed" FontSize="Micro" FontFamily="PoppinsRegular" HorizontalOptions="Center" TextColor="{AppThemeBinding Light={StaticResource TextMuted}, Dark={StaticResource TextMutedDark}}" Margin="0, -5, 0, 0" />
+								<Label Text="completed" FontSize="Micro" FontFamily="PoppinsBold" CharacterSpacing="-1" HorizontalOptions="Center" TextColor="{AppThemeBinding Light={StaticResource TextMuted}, Dark={StaticResource TextMutedDark}}" Margin="0, -5, 0, 0" />
 							</VerticalStackLayout>
-							<Button Clicked="ToggleTheme" x:Name="toggleButton" Margin="5" FontSize="Small" CornerRadius="13" HeightRequest="26" WidthRequest="26" Padding="3" />
+							<Button Clicked="ToggleTheme" x:Name="toggleButton" Margin="5" FontSize="Small" CornerRadius="15" HeightRequest="30" WidthRequest="30" Padding="3" />
 						</HorizontalStackLayout>
+
 					</Grid>
 
             </Border>   
@@ -51,9 +59,9 @@
 			<Border Grid.Row="2" BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceSecondary}, Dark={StaticResource SurfaceSecondaryDark}}" StrokeShape="RoundRectangle 6" Padding="4" Margin="10, 5">
 				<Grid ColumnDefinitions="auto, *, *, *">
 					<Image Source="icon_filter.png" Grid.Column="0" HeightRequest="25" WidthRequest="25" Margin="6, 5, 4, 5" />
-					<Button Grid.Column="1" Text = "All" TextColor="{AppThemeBinding Light={StaticResource TextSecondary}, Dark={StaticResource TextSecondaryDark}}" Margin="4, 5" />
-					<Button Grid.Column="2" Text = "Active" TextColor="{AppThemeBinding Light={StaticResource TextSecondary}, Dark={StaticResource TextSecondaryDark}}" Margin="4, 5" />
-					<Button Grid.Column="3" Text = "Done" TextColor="{AppThemeBinding Light={StaticResource TextSecondary}, Dark={StaticResource TextSecondaryDark}}" Margin="4, 5, 6, 5" />
+					<Button Grid.Column="1" Text = "All" Clicked="FilterAll" TextColor="{AppThemeBinding Light={StaticResource TextSecondary}, Dark={StaticResource TextSecondaryDark}}" Margin="4, 5" />
+					<Button Grid.Column="2" Text = "Active" Clicked="FilterActive" TextColor="{AppThemeBinding Light={StaticResource TextSecondary}, Dark={StaticResource TextSecondaryDark}}" Margin="4, 5" />
+					<Button Grid.Column="3" Text = "Done" Clicked="FilterDone" TextColor="{AppThemeBinding Light={StaticResource TextSecondary}, Dark={StaticResource TextSecondaryDark}}" Margin="4, 5, 6, 5" />
 				</Grid>
 			</Border>
 
@@ -61,7 +69,7 @@
 
             <!-- Task Templates -->
 			<Border Grid.Row="3" BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceSecondary}, Dark={StaticResource SurfaceSecondaryDark}}"  StrokeShape="RoundRectangle 10" Padding="8" Margin="10, 5">
-				<ListView x:Name="ToDoList" ItemsSource="{Binding tasks}" HasUnevenRows="True" SeparatorVisibility="None" BackgroundColor="Transparent">
+				<ListView x:Name="ToDoList" ItemsSource="{Binding filtered}" HasUnevenRows="True" SeparatorVisibility="None" BackgroundColor="Transparent">
 					<ListView.ItemTemplate>
 
 						<!-- TaskBox HardCoded -->
