@@ -1,4 +1,5 @@
-﻿using System.Net.Mime;
+﻿using SQLite;
+using System.Net.Mime;
 using Microsoft.Maui;
 
 namespace D_ToDoList;
@@ -6,6 +7,7 @@ using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
+[Table("tasks")]
 public class ToDoClass: INotifyPropertyChanged
 {
     public ToDoClass()
