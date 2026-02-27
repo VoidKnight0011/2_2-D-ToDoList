@@ -19,8 +19,10 @@ public static class MauiProgram
                 fonts.AddFont("Poppins-Regular.ttf", "PoppinsRegular");
                 fonts.AddFont("Poppins-Bold.ttf", "PoppinsBold");
                 fonts.AddFont("Poppins-Black.ttf", "PoppinsBlack");
+                fonts.AddFont("Poppins-SemiBold.ttf", "PoppinsSemiBold");
             });
         builder.Services.AddSingleton<ToDoDB>();
+        
 
 #if DEBUG
         builder.Logging.AddDebug();
