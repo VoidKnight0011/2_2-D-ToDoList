@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using Android.Net.Wifi.Hotspot2.Pps;
 using Android.Widget;
 // using Android.Widget;
 using Microsoft.Maui.ApplicationModel;
@@ -6,6 +7,7 @@ using Microsoft.Maui.Controls;
 using Microsoft.Maui.Graphics;
 using D_ToDoList.Resources.Database;
 using D_ToDoList.Resources.Pages;
+using Microsoft.Maui;
 using Button = Microsoft.Maui.Controls.Button;
 
 namespace D_ToDoList;
@@ -40,27 +42,36 @@ public partial class MainPage : ContentPage
             }
             
 
-        public void ToggleTheme(Object? sender, EventArgs e)
-        {
-            if (Application.Current.RequestedTheme == AppTheme.Dark)
+            public async void ToggleTheme(Object? sender, EventArgs e)
             {
-                toggleButton.ImageSource = "icon_sun.png";
-                Application.Current.UserAppTheme = AppTheme.Light;
+                await toggleButton.RotateTo(180, 200, Easing.SpringIn);
+
+                if (Application.Current.RequestedTheme == AppTheme.Dark)
+                {
+                    toggleButton.ImageSource = "icon_sun.png";
+                    Application.Current.UserAppTheme = AppTheme.Light;
+                }
+                else
+                {
+                    toggleButton.ImageSource = "icon_moon.png";
+                    Application.Current.UserAppTheme = AppTheme.Dark;
+                }
+
+                foreach (var t in tasks)
+                    t.RefreshColors();
+
+                await toggleButton.RotateTo(0, 200, Easing.SpringOut);
+                FilterList();
             }
-            else
-            {
-                toggleButton.ImageSource = "icon_moon.png";
-                Application.Current.UserAppTheme = AppTheme.Dark;
-            }
-        }
         
         protected override async void OnAppearing()
         {
             base.OnAppearing();
                         
             var dbTasks = await _database.GetAll();
-    
-
+            toggleButton.ImageSource = Application.Current.RequestedTheme == AppTheme.Dark ? "icon_moon.png" 
+                : "icon_sun.png";
+            
             tasks.Clear();
             foreach (var t in dbTasks)
             {

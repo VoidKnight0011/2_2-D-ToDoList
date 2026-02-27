@@ -7,7 +7,7 @@
         <Grid RowDefinitions="auto, auto, auto, *, auto" BackgroundColor="{AppThemeBinding Light={StaticResource SurfacePrimary}, Dark={StaticResource SurfacePrimaryDark}}">
             
             <!-- Header -->
-            <Border Grid.Row="0" BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceSecondary}, Dark={StaticResource SurfaceSecondaryDark}}" StrokeShape="RoundRectangle 12" Padding="10" Margin="10, 10, 10, 5">
+            <Border x:Name="B1" Grid.Row="0" BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceSecondary}, Dark={StaticResource SurfaceSecondaryDark}}" StrokeShape="RoundRectangle 12" Padding="10" Margin="10, 5">
 
 
 					<Grid ColumnDefinitions="*,*">
@@ -46,7 +46,7 @@
 
 
             <!-- Add Task -->
-			<Border Grid.Row="1" BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceSecondary}, Dark={StaticResource SurfaceSecondaryDark}}" StrokeShape="RoundRectangle 12" Padding="8" Margin="10, 5">
+			<Border x:Name="B2" Grid.Row="1" BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceSecondary}, Dark={StaticResource SurfaceSecondaryDark}}" StrokeShape="RoundRectangle 12" Padding="8" Margin="10, 5">
 				<Grid ColumnDefinitions="*, 30">
 					<Entry x:Name="taskTitle" Grid.Column="0" Placeholder = "What to do for today?" BackgroundColor="Transparent" Margin="10, 5, 10, 5" />
 					<Button Grid.Column="1" ImageSource="icon_add.png" HeightRequest="30" WidthRequest="30" Margin="5, 5, 20, 5" Padding="3" FontFamily="PoppinsRegular" BackgroundColor="{AppThemeBinding Light={StaticResource SurfacePrimaryDark}, Dark={StaticResource SurfacePrimary}}" Clicked="TaskAdd" />
@@ -56,19 +56,19 @@
 
 
             <!-- Task Category (All, Active, Done) -->
-			<Border Grid.Row="2" BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceSecondary}, Dark={StaticResource SurfaceSecondaryDark}}" StrokeShape="RoundRectangle 6" Padding="4" Margin="10, 5">
+			<Border x:Name="B3" Grid.Row="2" BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceSecondary}, Dark={StaticResource SurfaceSecondaryDark}}" StrokeShape="RoundRectangle 6" Padding="4" Margin="10, 5">
 				<Grid ColumnDefinitions="auto, *, *, *">
 					<Image Source="icon_filter.png" Grid.Column="0" HeightRequest="25" WidthRequest="25" Margin="6, 5, 4, 5" />
-					<Button Grid.Column="1" Text = "All" Clicked="FilterAll" TextColor="{AppThemeBinding Light={StaticResource TextSecondary}, Dark={StaticResource TextSecondaryDark}}" Margin="4, 5" />
-					<Button Grid.Column="2" Text = "Active" Clicked="FilterActive" TextColor="{AppThemeBinding Light={StaticResource TextSecondary}, Dark={StaticResource TextSecondaryDark}}" Margin="4, 5" />
-					<Button Grid.Column="3" Text = "Done" Clicked="FilterDone" TextColor="{AppThemeBinding Light={StaticResource TextSecondary}, Dark={StaticResource TextSecondaryDark}}" Margin="4, 5, 6, 5" />
+					<Button Grid.Column="1" Text = "All" Clicked="FilterAll" TextColor="{AppThemeBinding Light={StaticResource TextPrimary}, Dark={StaticResource TextPrimaryDark}}" Margin="4, 5" />
+					<Button Grid.Column="2" Text = "Active" Clicked="FilterActive" TextColor="{AppThemeBinding Light={StaticResource TextPrimary}, Dark={StaticResource TextPrimaryDark}}" Margin="4, 5" />
+					<Button Grid.Column="3" Text = "Done" Clicked="FilterDone" TextColor="{AppThemeBinding Light={StaticResource TextPrimary}, Dark={StaticResource TextPrimaryDark}}" Margin="4, 5, 6, 5" />
 				</Grid>
 			</Border>
 
 
 
             <!-- Task Templates -->
-			<Border Grid.Row="3" BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceSecondary}, Dark={StaticResource SurfaceSecondaryDark}}"  StrokeShape="RoundRectangle 10" Padding="8" Margin="10, 5">
+			<Border x:Name="B4" Grid.Row="3" BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceSecondary}, Dark={StaticResource SurfaceSecondaryDark}}"  StrokeShape="RoundRectangle 10" Padding="8" Margin="10, 5">
 				<ListView x:Name="ToDoList" ItemsSource="{Binding filtered}" HasUnevenRows="True" SeparatorVisibility="None" BackgroundColor="Transparent">
 					<ListView.ItemTemplate>
 
@@ -92,7 +92,7 @@
 			</Border>
 
 				<!-- X Tasks Remaining! -->
-				<Border Grid.Row="4" HorizontalOptions="Center" BackgroundColor="Transparent" Margin="10, 5" >
+				<Border x:Name="B5" Grid.Row="4" HorizontalOptions="Center" BackgroundColor="Transparent" Margin="10, 5" >
 					<Label Text="{Binding statusString}" />
 				</Border>
 

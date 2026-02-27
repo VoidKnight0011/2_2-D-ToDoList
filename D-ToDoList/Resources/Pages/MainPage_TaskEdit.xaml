@@ -26,7 +26,7 @@
         <Border Grid.Row="1" StrokeShape="RoundRectangle 10" Padding="25" Margin="10, 8" StrokeThickness="0" BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceSecondary}, Dark={StaticResource SurfaceSecondaryDark}}">
             <VerticalStackLayout>
                 <Label Text = "Task Description:" FontSize="Medium" FontFamily="PoppinsBold" />
-                <Entry Text = "{Binding description}" BackgroundColor="Transparent" TextChanged="DescriptionChange" />
+                <Editor Text = "{Binding description}" BackgroundColor="Transparent" TextChanged="DescriptionChange" AutoSize="TextChanges" />
             </VerticalStackLayout>
         </Border>
         
@@ -37,7 +37,7 @@
                 <Border Grid.Column = "0" StrokeThickness="0">
                     <VerticalStackLayout Margin="10, 20">
                         <Label Text="Status:" FontFamily="PoppinsBold" />
-                        <Label Text="{Binding status}" TextColor="{Binding statusColor}" />
+                        <Label Text="{Binding status, StringFormat='● {0}'}" TextColor="{Binding statusColor}" />
                     </VerticalStackLayout>
                 </Border>
                 
@@ -45,14 +45,14 @@
                 <Border Grid.Column = "1" StrokeThickness="0">
                     <VerticalStackLayout Margin="10, 20">
                         <Label Text="Date Created:" FontFamily="PoppinsBold" />
-                        <Label Text="{Binding dateCreated, StringFormat='{MMMM d, yyyy (dddd) at hh : mm tt}'}" FontFamily="PoppinsBold" />
+                        <Label Text="{Binding dateCreated, StringFormat='{MMMM d, yyyy (dddd) at hh : mm tt}'}" FontFamily="PoppinsRegular" />
                     </VerticalStackLayout>
                 </Border>
             </Grid>
         </Border>    
         
         <!-- Task Options (Save/Delete) -->
-        <Border Grid.Row="3" Padding="15" StrokeShape="RoundRectangle 10" Margin="10, 0" StrokeThickness="0">
+        <Border Grid.Row="3" Padding="15" StrokeThickness="0">
             <Grid ColumnDefinitions="*,*">
                 <!-- Left -->
                 <Border Grid.Column = "0" Margin="6, 8" StrokeThickness="0">
@@ -61,13 +61,7 @@
                 
                 <!-- Right -->
                 <Border Grid.Column = "1" Margin="6, 8" StrokeThickness="0">
-                    <Button x:Name="saveButton"
-                            Grid.Column="1" 
-                            Text="Save"
-                            BackgroundColor="{StaticResource Success}" 
-                            IsEnabled="{Binding IsEdited}"
-                            Clicked="TaskSave"
-                            Padding="0, 15" Margin="6, 8" FontFamily="PoppinsBold" />
+                    <Button x:Name="saveButton" Grid.Column="1" Text="Save" BackgroundColor="{StaticResource Success}" Clicked="TaskSave" Padding="0, 15" FontFamily="PoppinsBold" />
                 </Border>
             </Grid>
         </Border>

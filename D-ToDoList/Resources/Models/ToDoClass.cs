@@ -99,4 +99,9 @@ public class ToDoClass : INotifyPropertyChanged
         OnPropertyChanged(propertyName);
         return true;
     }
+    
+    public void RefreshColors()
+    {
+        OnPropertyChanged(nameof(checkColor));
+    }
 }
