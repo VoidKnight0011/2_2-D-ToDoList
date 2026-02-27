@@ -8,48 +8,75 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 [Table("tasks")]
-public class ToDoClass: INotifyPropertyChanged
+public class ToDoClass : INotifyPropertyChanged
 {
-    public ToDoClass()
-    {
+    private int _id;
+    private string _title;
+    private string _detail;
+    private bool _isChecked;
+    private bool _isEditing;
+
+    [PrimaryKey, AutoIncrement]
+    public int id 
+    { 
+        get => _id; 
+        set => SetField(ref _id, value); 
     }
-    int _id { get; set; }
-    string _title { get; set; }
-    string _detail { get; set; }
-    public bool isChecked { get; set; }
-        public bool _isEditing = false;
-        public bool isntEditing => !(isEditing);
-    
-    public TextDecorations labelDecor => isChecked ? TextDecorations.Strikethrough : TextDecorations.None;
+
+    public string title 
+    { 
+        get => _title; 
+        set => SetField(ref _title, value); 
+    }
+
+    public string detail 
+    { 
+        get => _detail; 
+        set => SetField(ref _detail, value); 
+    }
+
+    public bool isChecked
+    {
+        get => _isChecked;
+        set
+        {
+            if (SetField(ref _isChecked, value))
+            {
+                OnPropertyChanged(nameof(checkColor));
+                OnPropertyChanged(nameof(labelDecor));
+            }
+        }
+    }
 
     public bool isEditing
     {
-        get { return _isEditing; }
-        set { _isEditing = value; OnPropertyChanged(nameof(isEditing)); OnPropertyChanged(nameof(isntEditing));
+        get => _isEditing;
+        set
+        {
+            if (SetField(ref _isEditing, value))
+            {
+                OnPropertyChanged(nameof(isntEditing));
+            }
         }
     }
-    public int id { 
-        get { return _id; } 
-        set { _id = value; OnPropertyChanged(nameof(id));} 
-    }
-    
-    public string title { 
-        get { return _title; } 
-        set { _title = value; OnPropertyChanged(nameof(title));} 
-    }
-    public string detail { 
-        get { return _detail; } 
-        set { _detail = value; OnPropertyChanged(nameof(detail));} 
-    }
-    
-    public event PropertyChangedEventHandler? PropertyChanged;
 
-    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
+    [Ignore]
+    public bool isntEditing => !isEditing;
 
-    protected bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+    [Ignore]
+    public TextDecorations labelDecor => isChecked ? TextDecorations.Strikethrough : TextDecorations.None;
+
+    [Ignore]
+    public Color checkColor => isChecked ? Color.FromArgb("#4169E1") :
+        (Application.Current.RequestedTheme == AppTheme.Dark 
+            ? Color.FromArgb("#181C23") 
+            : Color.FromArgb("#F4F6FA"));
+
+    public event PropertyChangedEventHandler PropertyChanged;
+    protected void OnPropertyChanged([CallerMemberName] string propertyName = null) 
+        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+    protected bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
     {
         if (EqualityComparer<T>.Default.Equals(field, value)) return false;
         field = value;

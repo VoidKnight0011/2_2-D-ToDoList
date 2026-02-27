@@ -1,9 +1,11 @@
 ﻿using System.Collections.ObjectModel;
+using Android.Widget;
 // using Android.Widget;
 using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Graphics;
 using D_ToDoList.Resources.Database;
+using Button = Microsoft.Maui.Controls.Button;
 
 namespace D_ToDoList;
 
@@ -61,6 +63,8 @@ public partial class MainPage : ContentPage
             tasks.Clear();
             foreach (var t in dbTasks)
                 tasks.Add(t);
+            completedTasks = tasks.Count(t => t.isChecked);
+            OnPropertyChanged(nameof(totalTasks));
             FilterList();
         }
         
@@ -76,26 +80,32 @@ public partial class MainPage : ContentPage
     public async void TaskCheck(Object? sender, EventArgs e)
     {
         var btn = sender as Button;
-        var task = btn.CommandParameter as ToDoClass;
+        var task = btn?.CommandParameter as ToDoClass;
+        if (task == null) return;
 
         task.isChecked = !(task.isChecked);
-        btn.BackgroundColor = task.isChecked ? Color.FromArgb("#4169E1") : Colors.Transparent;
-        if (task.isChecked) completedTasks++;
-        else completedTasks--;
-        
         await _database.Update(task);
+        
+        MainThread.BeginInvokeOnMainThread(() =>{
+            btn.BackgroundColor = task.isChecked ? Color.FromArgb("#4169E1") : Colors.Transparent;
+            if (task.isChecked) completedTasks++;
+            else completedTasks--;
+            
+            FilterList();
+        });
     }
 
     public async void TaskAdd(Object sender, EventArgs e)
     {
         if (!string.IsNullOrWhiteSpace(taskTitle.Text))
         {
-            tasks.Add(new ToDoClass
+            var newTask = new ToDoClass
             {
                 title = taskTitle.Text,
-                id = tasks.Count + 1
-            });
-            await _database.Insert(tasks[tasks.Count - 1]);
+                isChecked = false
+            };
+            await _database.Insert(newTask);
+            tasks.Add(newTask);
             
             OnPropertyChanged(nameof(totalTasks));
             OnPropertyChanged(nameof(taskPercentage));
@@ -103,26 +113,34 @@ public partial class MainPage : ContentPage
             
             taskTitle.Text = string.Empty;
             taskTitle.Unfocus();
+            FilterList();
         }
     }
     
     public async void TaskEdit(Object sender, EventArgs e)
     {
         var btn = sender as Button;
-        var task = btn.CommandParameter as ToDoClass;
+        var task = btn?.CommandParameter as ToDoClass;
+        if (task == null) return;
+        
         task.isEditing = !(task.isEditing);
         await _database.Update(task);
     }
     public async void TaskDelete(Object? sender, EventArgs e)
     {
         var btn = sender as Button;
-        var task = btn.CommandParameter as ToDoClass;
+        var task = btn?.CommandParameter as ToDoClass;
+        if (task == null) return;
         
         bool answer = await DisplayAlert("Delete Task", "Are you sure?", "Yes", "No");
         if (answer)
         {
             await _database.Delete(task);
             tasks.Remove(task);
+            OnPropertyChanged(nameof(totalTasks));
+            OnPropertyChanged(nameof(taskPercentage));
+            OnPropertyChanged(nameof(statusString));
+            FilterList();
         }
     }
 

@@ -77,7 +77,7 @@
 							<ViewCell>
 								<Border Grid.Row="0" Margin="3" StrokeThickness="0">
 									<Grid ColumnDefinitions="24, *, 36, 36">
-										<Button Grid.Column="0" BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceSecondary}, Dark={StaticResource SurfaceSecondaryDark}}" BorderWidth="5" BorderColor="{StaticResource AccentPrimary}" HeightRequest="24" WidthRequest="24" HorizontalOptions="Center" CornerRadius="12" Margin="5, 0" Clicked="TaskCheck" CommandParameter="{Binding .}" />
+										<Button Grid.Column="0" BackgroundColor="{Binding checkColor}" BorderWidth="5" BorderColor="{StaticResource AccentPrimary}" HeightRequest="24" WidthRequest="24" HorizontalOptions="Center" CornerRadius="12" Margin="5, 0" Clicked="TaskCheck" CommandParameter="{Binding .}" />
 											<Border Grid.Column="1" StrokeThickness="0">
 												<VerticalStackLayout>
 													<Label Text="{Binding title}" TextDecorations="{Binding labelDecor}" IsVisible="{Binding isntEditing}" BackgroundColor="Transparent" Margin="5, 10" />
