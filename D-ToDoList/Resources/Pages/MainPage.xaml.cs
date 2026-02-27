@@ -137,6 +137,7 @@ public partial class MainPage : ContentPage
         bool answer = await DisplayAlert("Delete Task", "Are you sure?", "Yes", "No");
         if (answer)
         {
+            if (task.isChecked) completedTasks--;
             await _database.Delete(task);
             tasks.Remove(task);
             OnPropertyChanged(nameof(totalTasks));
