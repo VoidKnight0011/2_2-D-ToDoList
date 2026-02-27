@@ -12,9 +12,11 @@ public class ToDoClass : INotifyPropertyChanged
 {
     private int _id;
     private string _title;
-    private string _detail;
+    private string _description;
     private bool _isChecked;
     private bool _isEditing;
+    private DateTime _dateCreated;
+    
 
     [PrimaryKey, AutoIncrement]
     public int id 
@@ -29,10 +31,18 @@ public class ToDoClass : INotifyPropertyChanged
         set => SetField(ref _title, value); 
     }
 
-    public string detail 
+    
+
+    public string description 
     { 
-        get => _detail; 
-        set => SetField(ref _detail, value); 
+        get => _description; 
+        set => SetField(ref _description, value);
+    }
+    
+    public DateTime dateCreated 
+    { 
+        get => _dateCreated; 
+        set => SetField(ref _dateCreated, value); 
     }
 
     public bool isChecked
@@ -65,6 +75,12 @@ public class ToDoClass : INotifyPropertyChanged
 
     [Ignore]
     public TextDecorations labelDecor => isChecked ? TextDecorations.Strikethrough : TextDecorations.None;
+
+    [Ignore]
+    public Color statusColor => isChecked ? Color.FromArgb("#16A34A") : Color.FromArgb("#DC2626");
+    
+    [Ignore]
+    public string status => isChecked ? "Completed" : "Active";
 
     [Ignore]
     public Color checkColor => isChecked ? Color.FromArgb("#4169E1") :

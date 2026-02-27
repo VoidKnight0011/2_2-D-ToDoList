@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="D_ToDoList.Resources.Pages.MainPage_TaskEdit"
+             Title="Edit Task"
+             Shell.BackgroundColor="{AppThemeBinding Light={StaticResource SurfacePrimary}, Dark={StaticResource SurfacePrimaryDark}}">
+    <Shell.TitleView>
+        <Grid HorizontalOptions="FillAndExpand" Margin="0,0,50,0">
+            <Label Text="Edit Task" TextColor="{AppThemeBinding Light={StaticResource TextPrimary}, Dark={StaticResource TextPrimaryDark}}"
+               HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="Subtitle" FontFamily="PoppinsBold"/>
+        </Grid>    
+    </Shell.TitleView>
+    <Grid RowDefinitions="auto, *, auto, auto">
+        
+        <!-- Task Title -->
+        <Border Grid.Row="0" Padding="25" StrokeShape="RoundRectangle 10" Margin="10, 0, 10, 8" StrokeThickness="0" BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceSecondary}, Dark={StaticResource SurfaceSecondaryDark}}">
+            <VerticalStackLayout>
+                <Label Text = "Task Title:" FontSize="Medium" FontFamily="PoppinsBold" />
+                <Entry Text = "{Binding title}" BackgroundColor="Transparent" TextChanged="TitleChange" />
+            </VerticalStackLayout>
+        </Border>
+            
+        
+        <!-- Task Description -->
+        <Border Grid.Row="1" StrokeShape="RoundRectangle 10" Padding="25" Margin="10, 8" StrokeThickness="0" BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceSecondary}, Dark={StaticResource SurfaceSecondaryDark}}">
+            <VerticalStackLayout>
+                <Label Text = "Task Description:" FontSize="Medium" FontFamily="PoppinsBold" />
+                <Entry Text = "{Binding description}" BackgroundColor="Transparent" TextChanged="DescriptionChange" />
+            </VerticalStackLayout>
+        </Border>
+        
+        <!-- Task Status -->
+        <Border Grid.Row="2" Padding="10" StrokeShape="RoundRectangle 10" Margin="10, 8, 10, 0" StrokeThickness="0" BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceSecondary}, Dark={StaticResource SurfaceSecondaryDark}}">
+            <Grid ColumnDefinitions="*,*">
+                <!-- Left -->
+                <Border Grid.Column = "0" StrokeThickness="0">
+                    <VerticalStackLayout Margin="10, 20">
+                        <Label Text="Status:" FontFamily="PoppinsBold" />
+                        <Label Text="{Binding status}" TextColor="{Binding statusColor}" />
+                    </VerticalStackLayout>
+                </Border>
+                
+                <!-- Right -->
+                <Border Grid.Column = "1" StrokeThickness="0">
+                    <VerticalStackLayout Margin="10, 20">
+                        <Label Text="Date Created:" FontFamily="PoppinsBold" />
+                        <Label Text="{Binding dateCreated, StringFormat='{MMMM d, yyyy (dddd) at hh : mm tt}'}" FontFamily="PoppinsBold" />
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+        </Border>    
+        
+        <!-- Task Options (Save/Delete) -->
+        <Border Grid.Row="3" Padding="15" StrokeShape="RoundRectangle 10" Margin="10, 0" StrokeThickness="0">
+            <Grid ColumnDefinitions="*,*">
+                <!-- Left -->
+                <Border Grid.Column = "0" Margin="6, 8" StrokeThickness="0">
+                    <Button BackgroundColor="{StaticResource Danger}" Padding = "0, 15" Text="Delete" FontFamily="PoppinsBold" TextColor="{AppThemeBinding Light={StaticResource SurfacePrimary}, Dark={StaticResource SurfacePrimaryDark}}" Clicked="TaskDelete" />
+                </Border>
+                
+                <!-- Right -->
+                <Border Grid.Column = "1" Margin="6, 8" StrokeThickness="0">
+                    <Button x:Name="saveButton"
+                            Grid.Column="1" 
+                            Text="Save"
+                            BackgroundColor="{StaticResource Success}" 
+                            IsEnabled="{Binding IsEdited}"
+                            Clicked="TaskSave"
+                            Padding="0, 15" Margin="6, 8" FontFamily="PoppinsBold" />
+                </Border>
+            </Grid>
+        </Border>
+    </Grid>
+</ContentPage>

@@ -6,6 +6,12 @@ public class ToDoDB
 {
     private SQLiteAsyncConnection _db;
 
+    public async Task<ToDoClass> GetLatest()
+    {
+        await Init();
+        return await _db.Table<ToDoClass>().OrderByDescending(t => t.id).FirstOrDefaultAsync();
+    }
+    
     public async Task Init()
     {
         if (_db != null) return;

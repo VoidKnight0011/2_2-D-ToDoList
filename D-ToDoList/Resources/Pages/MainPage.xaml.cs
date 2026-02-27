@@ -5,6 +5,7 @@ using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Graphics;
 using D_ToDoList.Resources.Database;
+using D_ToDoList.Resources.Pages;
 using Button = Microsoft.Maui.Controls.Button;
 
 namespace D_ToDoList;
@@ -56,15 +57,21 @@ public partial class MainPage : ContentPage
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            toggleButton.ImageSource = Application.Current.RequestedTheme == AppTheme.Dark 
-                ? "icon_moon.png" 
-                : "icon_sun.png";
+                        
             var dbTasks = await _database.GetAll();
+    
+
             tasks.Clear();
             foreach (var t in dbTasks)
+            {
                 tasks.Add(t);
+            }
+                        
             completedTasks = tasks.Count(t => t.isChecked);
             OnPropertyChanged(nameof(totalTasks));
+            OnPropertyChanged(nameof(taskPercentage));
+            OnPropertyChanged(nameof(statusString));
+                        
             FilterList();
         }
         
@@ -76,25 +83,8 @@ public partial class MainPage : ContentPage
                         BindingContext = this;
                         _database = database;
                     }
-
-    public async void TaskCheck(Object? sender, EventArgs e)
-    {
-        var btn = sender as Button;
-        var task = btn?.CommandParameter as ToDoClass;
-        if (task == null) return;
-
-        task.isChecked = !(task.isChecked);
-        await _database.Update(task);
-        
-        MainThread.BeginInvokeOnMainThread(() =>{
-            btn.BackgroundColor = task.isChecked ? Color.FromArgb("#4169E1") : Colors.Transparent;
-            if (task.isChecked) completedTasks++;
-            else completedTasks--;
-            
-            FilterList();
-        });
-    }
-
+    
+                    
     public async void TaskAdd(Object sender, EventArgs e)
     {
         if (!string.IsNullOrWhiteSpace(taskTitle.Text))
@@ -102,10 +92,12 @@ public partial class MainPage : ContentPage
             var newTask = new ToDoClass
             {
                 title = taskTitle.Text,
-                isChecked = false
+                isChecked = false,
+                dateCreated = DateTime.Now
             };
             await _database.Insert(newTask);
             tasks.Add(newTask);
+            
             
             OnPropertyChanged(nameof(totalTasks));
             OnPropertyChanged(nameof(taskPercentage));
@@ -123,8 +115,7 @@ public partial class MainPage : ContentPage
         var task = btn?.CommandParameter as ToDoClass;
         if (task == null) return;
         
-        task.isEditing = !(task.isEditing);
-        await _database.Update(task);
+        await Navigation.PushAsync(new MainPage_TaskEdit(task, _database));
     }
     public async void TaskDelete(Object? sender, EventArgs e)
     {
@@ -144,6 +135,20 @@ public partial class MainPage : ContentPage
         }
     }
 
+    public async void TaskCheck(Object? sender, EventArgs e)
+    {
+        var btn = sender as Button;
+        var task = btn?.CommandParameter as ToDoClass;
+        if (task == null) return;
+
+        task.isChecked = !task.isChecked;
+        if (task.isChecked) completedTasks++;
+        else completedTasks--;
+    
+        await _database.Update(task);
+        FilterList();
+    }
+    
     public ObservableCollection<ToDoClass> filtered { get; set; } = new();
     public string activeFilter { get; set; } = "All";
     public void FilterList()
