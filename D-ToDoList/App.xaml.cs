@@ -1,4 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Maui.Controls;
+using D_ToDoList.Resources.Pages;
+using D_ToDoList.Resources.Database;
 
 namespace D_ToDoList;
 
@@ -12,6 +15,7 @@ public partial class App : Application
 
     protected override Window CreateWindow(IActivationState? activationState)
     {
-        return new Window(new AppShell());
+        var database = IPlatformApplication.Current.Services.GetService<ToDoDB>();
+        return new Window(new NavigationPage(new LoginPage(database)));
     }
 }

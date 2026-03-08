@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="D_ToDoList.Resources.Pages.MainPage_Profile"
+             xmlns:control="clr-namespace:Syncfusion.Maui.ProgressBar;assembly=Syncfusion.Maui.ProgressBar">
+	
+	<AbsoluteLayout>
+		<Grid AbsoluteLayout.LayoutBounds="0,0,1,1"
+		      AbsoluteLayout.LayoutFlags="All"
+		      RowDefinitions="auto, *, auto, auto, auto"
+		      BackgroundColor="{AppThemeBinding Light={StaticResource SurfacePrimary}, Dark={StaticResource SurfacePrimaryDark}}">
+			
+            <!-- Header -->
+            <Border x:Name="B1" Grid.Row="0" BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceSecondary}, Dark={StaticResource SurfaceSecondaryDark}}" Padding="10" Margin="0, 0, 0, 5">
+	            <Grid ColumnDefinitions="auto,*">
+		            <VerticalStackLayout Grid.Column="0" HorizontalOptions="Start">
+			            <Label Text="ToDoList" FontSize="Title" FontFamily="PoppinsBlack" TextColor="{AppThemeBinding Light={StaticResource TextPrimary}, Dark={StaticResource TextPrimaryDark}}" />
+			            <Label Text="{Binding dateToday}" Margin="0, -15, 0, 0" CharacterSpacing="-1" FontSize="Micro" FontFamily="PoppinsRegular" TextColor="{AppThemeBinding Light={StaticResource TextMuted}, Dark={StaticResource TextMutedDark}}" />
+		            </VerticalStackLayout>
+		            <HorizontalStackLayout Grid.Column="1" HorizontalOptions="End">
+			            <VerticalStackLayout Margin="5" HorizontalOptions="Center" VerticalOptions="Center">
+				            <Label FontFamily="PoppinsBold" Text="Welcome Back," FontSize="9" TextColor="{AppThemeBinding Light={StaticResource TextSecondary}, Dark={StaticResource TextSecondaryDark}}" Margin="0" />
+				            <Label FontFamily="PoppinsRegular" Text="{Binding DisplayName}" FontSize="8" TextColor="{AppThemeBinding Light={StaticResource TextSecondary}, Dark={StaticResource TextSecondaryDark}}" Margin="0" />
+			            </VerticalStackLayout>
+			            <ImageButton Clicked="LogOut" Source="icon_logout.png" HeightRequest="35" WidthRequest="35" Margin="5" CornerRadius="10" Padding="0" />
+		            </HorizontalStackLayout>
+	            </Grid>
+            </Border>
+
+            <!-- Profile Content -->
+            <Border Grid.Row="1" BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceTertiary}, Dark={StaticResource SurfaceTertiaryDark}}" StrokeShape="RoundRectangle 12" Padding="10" Margin="10, 5, 10, 12">
+	            <Grid ColumnDefinitions="125,*">
+		            <Border Grid.Column="0" StrokeThickness="0">
+			            <VerticalStackLayout>
+				            <Image Source="icon_user.png" VerticalOptions="Start" WidthRequest="75" HeightRequest="75" Margin="5" />
+				            <Border HorizontalOptions="FillAndExpand" StrokeThickness="0">
+					            <Entry HorizontalOptions="Fill" WidthRequest="125" BackgroundColor="Transparent" Text="{Binding DisplayName}" x:Name="UserDisplay" TextChanged="OnFieldChanged" />
+				            </Border>
+			            </VerticalStackLayout>
+		            </Border>
+
+		            <Border Grid.Column="1" StrokeThickness="0">
+			            <VerticalStackLayout Margin="0, 5">
+				            <Border Margin="0, 5" HorizontalOptions="FillAndExpand" StrokeThickness="0">
+					            <Entry TextChanged="OnFieldChanged" BackgroundColor="Transparent" Text="{Binding Username}" x:Name="UserName" />
+				            </Border>
+				            <Border Margin="0, 5" HorizontalOptions="FillAndExpand" StrokeThickness="0">
+					            <Entry TextChanged="OnFieldChanged" BackgroundColor="Transparent" Text="{Binding Email}" x:Name="UserEmail" />
+				            </Border>
+				            <Border Margin="0, 5" HorizontalOptions="FillAndExpand" StrokeThickness="0">
+					            <Grid>
+						            <Entry BackgroundColor="Transparent" TextChanged="OnFieldChanged" Placeholder="Password" Text="{Binding Password}" IsPassword="True" x:Name="UserPass" />
+						            <ImageButton Padding="0" Margin="5, 0" Source="icon_closedeye.png" HeightRequest="25" WidthRequest="25" x:Name="TogglePsswd" BackgroundColor="Transparent" HorizontalOptions="End" Clicked="TogglePassword" />
+					            </Grid>
+				            </Border>
+
+				            <VerticalStackLayout Margin="0, 5">
+					            <Label Text="Account Created:" FontFamily="PoppinsBold" />
+					            <VerticalStackLayout Spacing="-7">
+						            <Label Text="{Binding AccountCreatedDate, StringFormat='{0:MMMM d, yyyy}'}" FontSize="Micro" FontFamily="PoppinsSemiBold" />
+						            <Label Text="{Binding AccountCreatedDate, StringFormat='{0:dddd}'}" FontSize="Micro" FontFamily="PoppinsRegular" />
+					            </VerticalStackLayout>
+				            </VerticalStackLayout>
+
+				            <VerticalStackLayout Margin="0, 5">
+					            <Label Text="Preferred Theme:" FontFamily="PoppinsBold" />
+					            <Picker BackgroundColor="Transparent" x:Name="ThemePicker" Title="Device Theme" SelectedIndexChanged="ToggleTheme">
+						            <Picker.ItemsSource>
+							            <x:Array Type="{x:Type x:String}">
+								            <x:String>Light</x:String>
+								            <x:String>Dark</x:String>
+								            <x:String>System</x:String>
+							            </x:Array>
+						            </Picker.ItemsSource>
+					            </Picker>
+				            </VerticalStackLayout>
+
+				            <Button Text="Save Changes" Clicked="SaveProfile" x:Name="SaveBtn" BackgroundColor="{StaticResource Success}" IsVisible="False" />
+
+			            </VerticalStackLayout>
+		            </Border>
+	            </Grid>
+            </Border>
+            
+            <Grid Grid.Row="3" BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceSecondary}, Dark={StaticResource SurfaceSecondaryDark}}">
+	            <Border StrokeThickness="0" BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceSecondary}, Dark={StaticResource SurfaceSecondaryDark}}">
+		            <Grid ColumnDefinitions="*, *, *" Padding="0, 10">
+			            <VerticalStackLayout Grid.Column="0" HorizontalOptions="Center">
+				            <Border BackgroundColor="Transparent" StrokeShape="RoundRectangle 14" StrokeThickness="0" Padding="10" HeightRequest="48" WidthRequest="48" HorizontalOptions="Center">
+					            <Border.GestureRecognizers>
+						            <TapGestureRecognizer Tapped="ToTasks" />
+					            </Border.GestureRecognizers>
+					            <Image Source="icon_tasks.png" HeightRequest="25" WidthRequest="25" HorizontalOptions="Center" VerticalOptions="Center" />
+				            </Border>
+				            <Label Text="Tasks" TextColor="{AppThemeBinding Light={StaticResource TextPrimary}, Dark={StaticResource TextPrimaryDark}}" HorizontalTextAlignment="Center" FontSize="Micro" />
+			            </VerticalStackLayout>
+
+			            <BoxView Grid.Column="1" Color="Transparent" />
+
+			            <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center">
+				            <Border BackgroundColor="Transparent" StrokeShape="RoundRectangle 14" StrokeThickness="0" Padding="10" HeightRequest="48" WidthRequest="48" HorizontalOptions="Center">
+					            <Image Source="icon_user.png" HeightRequest="25" WidthRequest="25" HorizontalOptions="Center" VerticalOptions="Center" />
+				            </Border>
+				            <Label Text="Profile" TextColor="{AppThemeBinding Light={StaticResource TextPrimary}, Dark={StaticResource TextPrimaryDark}}" HorizontalTextAlignment="Center" FontSize="Micro" />
+			            </VerticalStackLayout>
+		            </Grid>
+	            </Border>
+
+
+	            
+	            <Grid HorizontalOptions="Center" VerticalOptions="Start" HeightRequest="85" WidthRequest="85" Margin="0, -15, 0, 0">
+		            <Border BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceSecondary}, Dark={StaticResource SurfaceSecondaryDark}}"
+		                    StrokeShape="RoundRectangle 50"
+		                    StrokeThickness="9"
+		                    Stroke="{AppThemeBinding Light={StaticResource SurfaceSecondary}, Dark={StaticResource SurfaceSecondaryDark}}">
+			            <Grid>
+				            <control:SfCircularProgressBar
+					            Minimum="0" Progress="{Binding taskPercentage}" Maximum="100"
+					            BackgroundColor="Transparent"
+					            TrackFill="{StaticResource AccentTertiary}"
+					            ProgressFill="{StaticResource AccentPrimary}"
+					            TrackThickness="10" ProgressThickness="10"
+					            AnimationEasing="{x:Static Easing.SinInOut}"
+					            AnimationDuration="1000" />
+				            <Label Text="{Binding taskPercentage, StringFormat='{0:F0}%'}"
+				                   FontSize="Micro" FontFamily="PoppinsRegular"
+				                   HorizontalOptions="Center" VerticalOptions="Center"
+				                   TextColor="{AppThemeBinding Light={StaticResource TextPrimary}, Dark={StaticResource TextPrimaryDark}}" />
+			            </Grid>
+		            </Border>
+	            </Grid>
+            </Grid>
+
+		</Grid>
+        
+        <Grid x:Name="LoadingOverlay"
+              AbsoluteLayout.LayoutBounds="0,0,1,1"
+              AbsoluteLayout.LayoutFlags="All"
+              IsVisible="False"
+              BackgroundColor="{AppThemeBinding Light={StaticResource SurfacePrimary}, Dark={StaticResource SurfacePrimaryDark}}">
+            <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10">
+                <ActivityIndicator IsRunning="True" Color="{StaticResource AccentPrimary}" HeightRequest="50" WidthRequest="50" />
+                <Label Text="Loading..." HorizontalTextAlignment="Center" FontFamily="PoppinsBold"
+                       TextColor="{AppThemeBinding Light={StaticResource TextPrimary}, Dark={StaticResource TextPrimaryDark}}" />
+            </VerticalStackLayout>
+        </Grid>
+
+	</AbsoluteLayout>
+</ContentPage>

@@ -1,13 +1,7 @@
-﻿using System.Collections.ObjectModel;
-using Android.Net.Wifi.Hotspot2.Pps;
-using Android.Widget;
-// using Android.Widget;
-using Microsoft.Maui.ApplicationModel;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui.Graphics;
+﻿using Microsoft.Maui.Controls;
+using System.Collections.ObjectModel;
 using D_ToDoList.Resources.Database;
 using D_ToDoList.Resources.Pages;
-using Microsoft.Maui;
 using Button = Microsoft.Maui.Controls.Button;
 
 namespace D_ToDoList;
@@ -15,7 +9,17 @@ namespace D_ToDoList;
 public partial class MainPage : ContentPage
 {
     public ObservableCollection<ToDoClass> tasks { get; set; } = new();
-    public string dateToday { get; set; } = DateTime.Now.ToString("dddd,  MMMM d");
+    public string? dateToday { get; set; } = DateTime.Now.ToString("dddd,  MMMM d");
+    private string? _displayName;
+    public string? DisplayName
+    {
+        get => _displayName;
+        set
+        {
+            _displayName = value;
+            OnPropertyChanged(nameof(DisplayName));
+        }
+    }
     private int _completedTasks = 0;
             public int completedTasks 
             { 
@@ -25,86 +29,65 @@ public partial class MainPage : ContentPage
                     _completedTasks = value;
                     OnPropertyChanged(nameof(completedTasks));
                     OnPropertyChanged(nameof(taskPercentage));
-                    OnPropertyChanged(nameof(statusString));
                 }
             }
             public int totalTasks => tasks.Count;
             public double taskPercentage => totalTasks == 0 ? 0 : Math.Min(100, ((double)completedTasks / totalTasks) * 100);
-
-            public string statusString
-            {
-                get
-                {
-                    if (totalTasks == 0) return "No Tasks Yet!";
-                    int rem = totalTasks - completedTasks;
-                    return completedTasks < totalTasks ? $"{rem} Task{(rem > 1 ? "s" : string.Empty)} Remaining!" : "All Tasks Completed!";
-                }
-            }
-            
-
-            public async void ToggleTheme(Object? sender, EventArgs e)
-            {
-                await toggleButton.RotateTo(180, 200, Easing.SpringIn);
-
-                if (Application.Current.RequestedTheme == AppTheme.Dark)
-                {
-                    toggleButton.ImageSource = "icon_sun.png";
-                    Application.Current.UserAppTheme = AppTheme.Light;
-                }
-                else
-                {
-                    toggleButton.ImageSource = "icon_moon.png";
-                    Application.Current.UserAppTheme = AppTheme.Dark;
-                }
-
-                foreach (var t in tasks)
-                    t.RefreshColors();
-
-                await toggleButton.RotateTo(0, 200, Easing.SpringOut);
-                FilterList();
-            }
+    
         
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-                        
-            var dbTasks = await _database.GetAll();
-            toggleButton.ImageSource = Application.Current.RequestedTheme == AppTheme.Dark ? "icon_moon.png" 
-                : "icon_sun.png";
-            
             tasks.Clear();
+            filtered.Clear();
+            DisplayName = _session.CurrentUser.displayName ?? _session.CurrentUser.userName;
+            Application.Current.UserAppTheme = _session.CurrentUser.preferredTheme switch
+            {
+                "Light" => AppTheme.Light,
+                "Dark" => AppTheme.Dark,
+                _ => AppTheme.Unspecified
+            };
+                        
+            var dbTasks = await _database.GetAllID(_session.CurrentUser.userID);
+            
             foreach (var t in dbTasks)
             {
                 tasks.Add(t);
             }
                         
-            completedTasks = tasks.Count(t => t.isChecked);
+            completedTasks = tasks.Count(t => t.taskStatus);
             OnPropertyChanged(nameof(totalTasks));
             OnPropertyChanged(nameof(taskPercentage));
-            OnPropertyChanged(nameof(statusString));
                         
             FilterList();
+            LoadingOverlay.IsVisible = false;
         }
         
         private readonly ToDoDB _database;
-                    public MainPage(ToDoDB database)
+        private readonly UserSession _session;
+                    public MainPage(ToDoDB database, UserSession session)
                     {
                         InitializeComponent();
+                        LoadingOverlay.IsVisible = true;
+                        NavigationPage.SetHasNavigationBar(this, false);
                         Application.Current.UserAppTheme = AppTheme.Unspecified;
                         BindingContext = this;
                         _database = database;
+                        _session = session;
                     }
     
+    
                     
-    public async void TaskAdd(Object sender, EventArgs e)
+    public async void TaskAdd(Object? sender, EventArgs e)
     {
         if (!string.IsNullOrWhiteSpace(taskTitle.Text))
         {
             var newTask = new ToDoClass
             {
-                title = taskTitle.Text,
-                isChecked = false,
-                dateCreated = DateTime.Now
+                userID = _session.CurrentUser.userID,
+                taskTitle = taskTitle.Text,
+                taskStatus = false,
+                taskDateCreated = DateTime.Now
             };
             await _database.Insert(newTask);
             tasks.Add(newTask);
@@ -112,7 +95,6 @@ public partial class MainPage : ContentPage
             
             OnPropertyChanged(nameof(totalTasks));
             OnPropertyChanged(nameof(taskPercentage));
-            OnPropertyChanged(nameof(statusString));
             
             taskTitle.Text = string.Empty;
             taskTitle.Unfocus();
@@ -120,7 +102,7 @@ public partial class MainPage : ContentPage
         }
     }
     
-    public async void TaskEdit(Object sender, EventArgs e)
+    public async void TaskEdit(Object? sender, EventArgs e)
     {
         var btn = sender as Button;
         var task = btn?.CommandParameter as ToDoClass;
@@ -134,15 +116,14 @@ public partial class MainPage : ContentPage
         var task = btn?.CommandParameter as ToDoClass;
         if (task == null) return;
         
-        bool answer = await DisplayAlert("Delete Task", "Are you sure?", "Yes", "No");
+        bool answer = await DisplayAlertAsync("Delete Task", "Are you sure?", "Yes", "No");
         if (answer)
         {
-            if (task.isChecked) completedTasks--;
+            if (task.taskStatus) completedTasks--;
             await _database.Delete(task);
             tasks.Remove(task);
             OnPropertyChanged(nameof(totalTasks));
             OnPropertyChanged(nameof(taskPercentage));
-            OnPropertyChanged(nameof(statusString));
             FilterList();
         }
     }
@@ -153,8 +134,8 @@ public partial class MainPage : ContentPage
         var task = btn?.CommandParameter as ToDoClass;
         if (task == null) return;
 
-        task.isChecked = !task.isChecked;
-        if (task.isChecked) completedTasks++;
+        task.taskStatus = !task.taskStatus;
+        if (task.taskStatus) completedTasks++;
         else completedTasks--;
     
         await _database.Update(task);
@@ -169,8 +150,8 @@ public partial class MainPage : ContentPage
         foreach (var t in tasks)
         {
             if(activeFilter == "All") filtered.Add(t);
-            else if(activeFilter == "Active" && !t.isChecked) filtered.Add(t);
-            else if(activeFilter == "Done" && t.isChecked) filtered.Add(t);
+            else if(activeFilter == "Active" && !t.taskStatus) filtered.Add(t);
+            else if(activeFilter == "Done" && t.taskStatus) filtered.Add(t);
         }
         
     }
@@ -191,6 +172,32 @@ public partial class MainPage : ContentPage
             activeFilter = "Done";
             FilterList();
         }
-    
-    
+
+        public async void LogOut(Object? sender, EventArgs e)
+        {
+            bool answer = await DisplayAlertAsync("Log Out", "Are you sure?", "Yes", "No");
+            if(answer){
+                var database = IPlatformApplication.Current.Services.GetService<ToDoDB>();
+                var session = IPlatformApplication.Current.Services.GetService<UserSession>();
+                session.CurrentUser = null;
+                Application.Current.MainPage = new NavigationPage(new LoginPage(database));
+            }
+        }
+        
+        
+        private void ToProfile(Object? sender, TappedEventArgs e)
+        {
+            if (Navigation.NavigationStack.Last() is MainPage_Profile) return;
+            
+            Navigation.PushAsync(new MainPage_Profile(_database, _session, completedTasks, totalTasks));
+        }
+        
+        public void ExportDB(Object? sender, EventArgs e)
+        {
+            var source = Path.Combine(FileSystem.AppDataDirectory, "tasks.db");
+            var dest = Path.Combine("/sdcard/Download/", "tasks.db");
+            File.Copy(source, dest, true);
+        }
+        
+        
 }

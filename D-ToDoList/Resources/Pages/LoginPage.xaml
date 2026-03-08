@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="D_ToDoList.Resources.Pages.LoginPage"
+             >
+    
+    <Border x:Name="LoggingBorder" VerticalOptions="Center" HorizontalOptions="Center" Padding="10" StrokeShape="RoundRectangle 10" StrokeThickness="2.5" Stroke="{StaticResource AccentPrimary}" BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceSecondary}, Dark={StaticResource SurfaceSecondaryDark}}">
+        <Grid>
+            <!-- Sign In Page -->
+            <Border x:Name="SignInPage" IsVisible="True" HorizontalOptions="Center" Margin="15" StrokeThickness="0">
+                <Grid RowDefinitions="auto, auto, auto">
+                    <VerticalStackLayout Grid.Row="0" Margin="30, 5">
+                        <Label Text="ToDoList" HorizontalTextAlignment="Center" FontSize="40" FontFamily="PoppinsBlack" TextColor="{AppThemeBinding Light={StaticResource TextPrimary}, Dark={StaticResource TextPrimaryDark}}" />
+                        <Label Text="Sign In" x:Name="SInHeader" HorizontalTextAlignment="Center" Margin="0, -28, 0, 0" FontSize="20" FontFamily="PoppinsBold" TextColor="{AppThemeBinding Light={StaticResource TextSecondary}, Dark={StaticResource TextSecondaryDark}}" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Row="1" Margin="30, 5">
+                        <Border Margin="0, 5" HorizontalOptions="FillAndExpand" StrokeThickness="0">
+                            <Entry BackgroundColor="Transparent" Placeholder="Username" x:Name="SIUsername" />
+                        </Border>
+                        <Border Margin="0, 5" HorizontalOptions="FillAndExpand" StrokeThickness="0">
+                            <Grid>
+                                <Entry BackgroundColor="Transparent" Placeholder="Password" IsPassword="True" x:Name="SIUserpass" />
+                                <ImageButton Padding="0" Margin="5, 0" Source="icon_closedeye.png" HeightRequest="25" WidthRequest="25" x:Name="TogglePsswd" BackgroundColor="Transparent" HorizontalOptions="End" Clicked="TogglePassword" />
+                            </Grid>
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Row="2" Margin="30, 10">
+                        <Label IsVisible = "False" x:Name="ErrorLabel" Margin="0" Padding="0">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Error: " FontFamily="PoppinsBold" FontSize="Micro" TextColor="{StaticResource Danger}" />
+                                    <Span Text="{Binding ErrorText}" FontSize="Micro" TextColor="{StaticResource Danger}" />
+                                </FormattedString>
+                            </Label.FormattedText>    
+                        </Label>    
+                        <Button x:Name="SignInBtn" Text="Login" FontSize="Large" Clicked="ToHome" />
+                        <HorizontalStackLayout x:Name="CTA1" HorizontalOptions="Center">
+                            <Label HorizontalTextAlignment="Center" Text="Don't have an account? " FontSize="Micro" />
+                            <Label HorizontalTextAlignment="Center" Text="Sign Up" TextColor="{StaticResource AccentPrimary}" FontSize="Micro">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="SignUp" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <!-- Sign Up Page -->
+            <Border x:Name="SignUpPage" IsVisible="False" HorizontalOptions="Center" Margin="15" StrokeThickness="0">
+                <Grid RowDefinitions="auto, auto, auto">
+                    <VerticalStackLayout Grid.Row="0" Margin="30, 0">
+                        <Label Text="ToDoList" HorizontalTextAlignment="Center" FontSize="40" FontFamily="PoppinsBlack" TextColor="{AppThemeBinding Light={StaticResource TextPrimary}, Dark={StaticResource TextPrimaryDark}}" />
+                        <Label Text="Sign Up" x:Name="SOutHeader" HorizontalTextAlignment="Center" Margin="0, -28, 0, 0" FontSize="20" FontFamily="PoppinsBold" TextColor="{AppThemeBinding Light={StaticResource TextSecondary}, Dark={StaticResource TextSecondaryDark}}" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Row="1" Margin="30, 5">
+                        <Border Margin="0, 5" HorizontalOptions="FillAndExpand" StrokeThickness="0">
+                            <Entry BackgroundColor="Transparent" Placeholder="Username" x:Name="SUUsername" />
+                        </Border>
+                        <Border Margin="0, 5" HorizontalOptions="FillAndExpand" StrokeThickness="0">
+                            <Entry BackgroundColor="Transparent" Placeholder="Email" x:Name="SUEmail" />
+                        </Border>
+                        <Border Margin="0, 5" HorizontalOptions="FillAndExpand" StrokeThickness="0">
+                            <Entry BackgroundColor="Transparent" Placeholder="Password" IsPassword="True" x:Name="SUPass1" />
+                        </Border>
+                        <Border x:Name="ConfirmPasswordBorder" Margin="0, 5" HorizontalOptions="FillAndExpand" StrokeThickness="0">
+                            <Entry BackgroundColor="Transparent" Placeholder="Confirm Password" IsPassword="True" x:Name="SUPass2" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Row="2" Margin="30, 5">
+                        <Label IsVisible = "False" x:Name="ErrorLabel2" Margin="0" Padding="0">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Error: " FontFamily="PoppinsBold" FontSize="Micro" TextColor="{StaticResource Danger}" />
+                                    <Span Text="{Binding ErrorText2}" FontSize="Micro" TextColor="{StaticResource Danger}" />
+                                </FormattedString>
+                            </Label.FormattedText>    
+                        </Label>  
+                        <Button x:Name="SignUpBtn" Text="Register" FontSize="Large" Clicked="Register" />
+                        <HorizontalStackLayout x:Name="CTA2" HorizontalOptions="Center">
+                            <Label HorizontalTextAlignment="Center" Text="Already have an account? " FontSize="Micro" />
+                            <Label HorizontalTextAlignment="Center" Text="Sign In" TextColor="{StaticResource AccentPrimary}" FontSize="Micro">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="SignIn" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+
+</ContentPage>

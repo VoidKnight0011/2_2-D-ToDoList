@@ -8,7 +8,7 @@
 
     <Color x:Key="SurfacePrimary">#FFFFFF</Color>
     <Color x:Key="SurfaceSecondary">#F4F6FA</Color>
-    <Color x:Key="SurfaceTertiary">#E9ECF3</Color>
+    <Color x:Key="SurfaceTertiary">#F5F7FB</Color>
     <Color x:Key="SurfaceElevated">#FFFFFF</Color>
 
     <Color x:Key="SurfacePrimaryDark">#0F1115</Color>

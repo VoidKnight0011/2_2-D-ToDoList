@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-// using Android.Widget;
-using D_ToDoList.Resources.Database;
-using Microsoft.Maui.Controls;
+﻿using D_ToDoList.Resources.Database;
 using System.Runtime.CompilerServices;
 using System.ComponentModel;
+using Microsoft.Maui.Controls;
 
 namespace D_ToDoList.Resources.Pages;
 
@@ -38,13 +32,13 @@ public partial class MainPage_TaskEdit : ContentPage
 
     public void TitleChange(Object sender, TextChangedEventArgs e)
     {
-        _tasks.title = e.NewTextValue;
+        _tasks.taskTitle = e.NewTextValue;
         isEdited = true;
     }
     
     public void DescriptionChange(Object sender, TextChangedEventArgs e)
     {
-        _tasks.description = e.NewTextValue;
+        _tasks.taskDescription = e.NewTextValue;
         isEdited = true;
     }
 
@@ -54,20 +48,19 @@ public partial class MainPage_TaskEdit : ContentPage
         {
             await _database.Update(_tasks);
             await Navigation.PopAsync();
-            // return to MainPage
         }
     }
     
     public async void TaskDelete(Object sender, EventArgs e)
     {
-        bool answer = await DisplayAlert("Delete Task", "Are you sure you want to delete?", "Yes", "No");
+        bool answer = await DisplayAlertAsync("Delete Task", "Are you sure you want to delete?", "Yes", "No");
         if (answer)
         {
             await _database.Delete(_tasks);
             await Navigation.PopAsync();
         }
     }
-    public new event PropertyChangedEventHandler PropertyChanged;
-    protected new void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+    public void BackBtn(Object? sender, EventArgs e) => Navigation.PopAsync();
+    
 }

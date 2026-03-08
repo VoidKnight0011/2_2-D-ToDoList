@@ -1,56 +1,61 @@
 ﻿using SQLite;
-using System.Net.Mime;
 using Microsoft.Maui;
-
-namespace D_ToDoList;
-using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+
+namespace D_ToDoList;
 
 [Table("tasks")]
 public class ToDoClass : INotifyPropertyChanged
 {
-    private int _id;
-    private string _title;
-    private string _description;
-    private bool _isChecked;
-    private bool _isEditing;
-    private DateTime _dateCreated;
+    // User Info
+    private int _userID;
     
+    // Task Info
+    private int _taskID;
+    private string? _taskTitle;
+    private string? _taskDescription;
+    private bool _taskStatus;
+    private bool _isEditing;
+    private DateTime _taskDateCreated;
+
+    public int userID
+    {
+        get => _userID;
+        set => SetField(ref _userID, value);
+    }
 
     [PrimaryKey, AutoIncrement]
-    public int id 
+    public int taskID 
     { 
-        get => _id; 
-        set => SetField(ref _id, value); 
+        get => _taskID; 
+        set => SetField(ref _taskID, value); 
     }
 
-    public string title 
+    public string? taskTitle 
     { 
-        get => _title; 
-        set => SetField(ref _title, value); 
+        get => _taskTitle; 
+        set => SetField(ref _taskTitle, value); 
     }
 
-    
-
-    public string description 
+    public string? taskDescription 
     { 
-        get => _description; 
-        set => SetField(ref _description, value);
+        get => _taskDescription; 
+        set => SetField(ref _taskDescription, value);
     }
     
-    public DateTime dateCreated 
+    public DateTime taskDateCreated 
     { 
-        get => _dateCreated; 
-        set => SetField(ref _dateCreated, value); 
+        get => _taskDateCreated; 
+        set => SetField(ref _taskDateCreated, value); 
     }
 
-    public bool isChecked
+    public bool taskStatus
     {
-        get => _isChecked;
+        get => _taskStatus;
         set
         {
-            if (SetField(ref _isChecked, value))
+            if (SetField(ref _taskStatus, value))
             {
                 OnPropertyChanged(nameof(checkColor));
                 OnPropertyChanged(nameof(labelDecor));
@@ -58,6 +63,7 @@ public class ToDoClass : INotifyPropertyChanged
         }
     }
 
+    // [Ignore]
     public bool isEditing
     {
         get => _isEditing;
@@ -74,19 +80,19 @@ public class ToDoClass : INotifyPropertyChanged
     public bool isntEditing => !isEditing;
 
     [Ignore]
-    public TextDecorations labelDecor => isChecked ? TextDecorations.Strikethrough : TextDecorations.None;
+    public TextDecorations labelDecor => taskStatus ? TextDecorations.Strikethrough : TextDecorations.None;
 
     [Ignore]
-    public Color statusColor => isChecked ? Color.FromArgb("#16A34A") : Color.FromArgb("#DC2626");
+    public Color statusColor => taskStatus ? Color.FromArgb("#16A34A") : Color.FromArgb("#DC2626");
     
     [Ignore]
-    public string status => isChecked ? "Completed" : "Active";
+    public string status => taskStatus ? "Completed" : "Active";
 
     [Ignore]
-    public Color checkColor => isChecked ? Color.FromArgb("#4169E1") :
+    public Color checkColor => taskStatus ? Color.FromArgb("#4169E1") :
         (Application.Current.RequestedTheme == AppTheme.Dark 
-            ? Color.FromArgb("#181C23") 
-            : Color.FromArgb("#F4F6FA"));
+            ? Color.FromArgb("#222834") 
+            : Color.FromArgb("#F5F7FB"));
 
     public event PropertyChangedEventHandler PropertyChanged;
     protected void OnPropertyChanged([CallerMemberName] string propertyName = null) 
