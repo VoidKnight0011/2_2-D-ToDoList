@@ -19,8 +19,8 @@
 		            </VerticalStackLayout>
 		            <HorizontalStackLayout Grid.Column="1" HorizontalOptions="End">
 			            <VerticalStackLayout Margin="5" HorizontalOptions="Center" VerticalOptions="Center">
-				            <Label FontFamily="PoppinsBold" Text="Welcome Back," FontSize="9" TextColor="{AppThemeBinding Light={StaticResource TextSecondary}, Dark={StaticResource TextSecondaryDark}}" Margin="0" />
-				            <Label FontFamily="PoppinsRegular" Text="{Binding DisplayName}" FontSize="8" TextColor="{AppThemeBinding Light={StaticResource TextSecondary}, Dark={StaticResource TextSecondaryDark}}" Margin="0" />
+				            <Label FontFamily="PoppinsBold" Text="Welcome," FontSize="11" TextColor="{AppThemeBinding Light={StaticResource TextSecondary}, Dark={StaticResource TextSecondaryDark}}" Margin="0" />
+				            <Label FontFamily="PoppinsRegular" Text="{Binding DisplayName}" FontSize="10" TextColor="{AppThemeBinding Light={StaticResource TextSecondary}, Dark={StaticResource TextSecondaryDark}}" Margin="0" />
 			            </VerticalStackLayout>
 			            <ImageButton Clicked="LogOut" Source="icon_logout.png" HeightRequest="35" WidthRequest="35" Margin="5" CornerRadius="10" Padding="0" />
 		            </HorizontalStackLayout>
@@ -74,7 +74,14 @@
 						            </Picker.ItemsSource>
 					            </Picker>
 				            </VerticalStackLayout>
-
+				            <Label IsVisible = "False" x:Name="ErrorLabel" Margin="0" Padding="0">
+					            <Label.FormattedText>
+						            <FormattedString>
+							            <Span Text="Error: " FontFamily="PoppinsBold" FontSize="Micro" TextColor="{StaticResource Danger}" />
+							            <Span Text="{Binding ErrorText}" FontSize="Micro" TextColor="{StaticResource Danger}" />
+						            </FormattedString>
+					            </Label.FormattedText>    
+				            </Label>    
 				            <Button Text="Save Changes" Clicked="SaveProfile" x:Name="SaveBtn" BackgroundColor="{StaticResource Success}" IsVisible="False" />
 
 			            </VerticalStackLayout>
@@ -108,7 +115,7 @@
 
 
 	            
-	            <Grid HorizontalOptions="Center" VerticalOptions="Start" HeightRequest="85" WidthRequest="85" Margin="0, -15, 0, 0">
+	            <Grid HorizontalOptions="Center" VerticalOptions="Start" HeightRequest="100" WidthRequest="100" Margin="0, -13, 0, 0">
 		            <Border BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceSecondary}, Dark={StaticResource SurfaceSecondaryDark}}"
 		                    StrokeShape="RoundRectangle 50"
 		                    StrokeThickness="9"
@@ -119,7 +126,7 @@
 					            BackgroundColor="Transparent"
 					            TrackFill="{StaticResource AccentTertiary}"
 					            ProgressFill="{StaticResource AccentPrimary}"
-					            TrackThickness="10" ProgressThickness="10"
+					            TrackThickness="14" ProgressThickness="14"
 					            AnimationEasing="{x:Static Easing.SinInOut}"
 					            AnimationDuration="1000" />
 				            <Label Text="{Binding taskPercentage, StringFormat='{0:F0}%'}"

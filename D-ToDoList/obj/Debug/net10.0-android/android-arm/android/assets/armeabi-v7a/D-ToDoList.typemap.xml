@@ -1,4 +1,4 @@
-<api type="debug" assembly-name="D-ToDoList" mvid="7d843ae382ca4ae69104624c80547199">
+<api type="debug" assembly-name="D-ToDoList" mvid="4c63bf62b8344ec982dfd0ea761f60e1">
   <java-to-managed>
     <entry java-name="crc6489506759854c5cda/MainActivity" managed-name="D_ToDoList.MainActivity, D-ToDoList" managed-type-token-id="33554440" />
     <entry java-name="crc6489506759854c5cda/MainApplication" managed-name="D_ToDoList.MainApplication, D-ToDoList" managed-type-token-id="33554441" />

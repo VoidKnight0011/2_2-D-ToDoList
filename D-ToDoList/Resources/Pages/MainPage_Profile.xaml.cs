@@ -99,18 +99,35 @@ public partial class MainPage_Profile : ContentPage
         }
     }
 
+    private string _errorText;
+    public string ErrorText
+    {
+        get => _errorText;
+        set { 
+            _errorText = value; 
+            OnPropertyChanged(nameof(ErrorText)); 
+        }
+    }
     public async void SaveProfile(Object sender, EventArgs e)
     {
         _session.CurrentUser.userName = UserName.Text;
         _session.CurrentUser.password = UserPass.Text;
-        _session.CurrentUser.userEmail = UserEmail.Text;
         _session.CurrentUser.displayName = UserDisplay.Text;
-    
+        
+        var existingEmail = await _database.GetUserByEmail(UserEmail.Text);
+        if (existingEmail != null)
+        {
+            ErrorLabel.IsVisible = true;
+            ErrorText = "Email already exists!";
+            return;
+        }
+        _session.CurrentUser.userEmail = UserEmail.Text;
         await _database.UpdateUserProfile(_session.CurrentUser);
         
         OnPropertyChanged(nameof(DisplayName));
         
-        await SaveBtn.FadeTo(0, 500, Easing.SinOut);
+        ErrorLabel.IsVisible = false;
+        await SaveBtn.FadeToAsync(0, 500, Easing.SinOut);
         SaveBtn.IsVisible = false;
     }
 }
