@@ -16,7 +16,7 @@
         <Border Grid.Row="1" Padding="25" StrokeShape="RoundRectangle 10" Margin="10, 8" StrokeThickness="0" BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceSecondary}, Dark={StaticResource SurfaceSecondaryDark}}">
             <VerticalStackLayout>
                 <Label Text = "Task Title:" FontSize="Medium" FontFamily="PoppinsBlack" />
-                <Entry Text = "{Binding taskTitle}" BackgroundColor="Transparent" TextChanged="TitleChange" />
+                <Entry Text = "{Binding item_name}" BackgroundColor="Transparent" TextChanged="TitleChange" />
             </VerticalStackLayout>
         </Border>
             
@@ -25,7 +25,7 @@
         <Border Grid.Row="2" StrokeShape="RoundRectangle 10" Padding="25" Margin="10, 8" StrokeThickness="0" BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceSecondary}, Dark={StaticResource SurfaceSecondaryDark}}">
             <VerticalStackLayout>
                 <Label Text = "Task Description:" FontSize="Medium" FontFamily="PoppinsBold" />
-                <Editor Text = "{Binding taskDescription}" BackgroundColor="Transparent" TextChanged="DescriptionChange" AutoSize="TextChanges" />
+                <Editor Text = "{Binding item_description}" BackgroundColor="Transparent" TextChanged="DescriptionChange" AutoSize="TextChanges" />
             </VerticalStackLayout>
         </Border>
         
@@ -44,10 +44,7 @@
                 <Border Grid.Column = "1" StrokeThickness="0">
                     <VerticalStackLayout Margin="10, 20">
                         <Label Text="Date Created:" FontFamily="PoppinsBlack" />
-                        <VerticalStackLayout Spacing="-10">
-                            <Label Text="{Binding taskDateCreated, StringFormat='{0:MMMM d, yyyy}'}" FontSize="Small" FontFamily="PoppinsSemiBold" />
-                            <Label Text="{Binding taskDateCreated, StringFormat='{0:dddd}'}" FontSize="Small" FontFamily="PoppinsRegular" />
-                        </VerticalStackLayout>
+                        <Label Text="{Binding timemodified}" FontSize="Small" FontFamily="PoppinsSemiBold" />
                     </VerticalStackLayout>
                 </Border>
             </Grid>

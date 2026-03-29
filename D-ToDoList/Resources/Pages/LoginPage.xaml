@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="D_ToDoList.Resources.Pages.LoginPage"
-             >
+             x:Class="D_ToDoList.Resources.Pages.LoginPage">
     
     <Border x:Name="LoggingBorder" VerticalOptions="Center" HorizontalOptions="Center" Padding="10" StrokeShape="RoundRectangle 10" StrokeThickness="2.5" Stroke="{StaticResource AccentPrimary}" BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceSecondary}, Dark={StaticResource SurfaceSecondaryDark}}">
         <Grid>
@@ -16,7 +15,7 @@
 
                     <VerticalStackLayout Grid.Row="1" Margin="30, 5">
                         <Border Margin="0, 5" HorizontalOptions="FillAndExpand" StrokeThickness="0">
-                            <Entry BackgroundColor="Transparent" Placeholder="Username" x:Name="SIUsername" />
+                            <Entry BackgroundColor="Transparent" Placeholder="Email" x:Name="SIEmail" />
                         </Border>
                         <Border Margin="0, 5" HorizontalOptions="FillAndExpand" StrokeThickness="0">
                             <Grid>
@@ -58,7 +57,10 @@
 
                     <VerticalStackLayout Grid.Row="1" Margin="30, 5">
                         <Border Margin="0, 5" HorizontalOptions="FillAndExpand" StrokeThickness="0">
-                            <Entry BackgroundColor="Transparent" Placeholder="Username" x:Name="SUUsername" />
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                                    <Entry Grid.Column="0" BackgroundColor="Transparent" Placeholder="First Name" x:Name="SUFirstName" />
+                                    <Entry Grid.Column="1" BackgroundColor="Transparent" Placeholder="Last Name" x:Name="SULastName" />
+                            </Grid>    
                         </Border>
                         <Border Margin="0, 5" HorizontalOptions="FillAndExpand" StrokeThickness="0">
                             <Entry BackgroundColor="Transparent" Placeholder="Email" x:Name="SUEmail" />

@@ -54,7 +54,7 @@
                                 <Border Margin="3" StrokeThickness="0">
                                     <Grid ColumnDefinitions="24, *, 36, 36">
                                         <Button Grid.Column="0" BackgroundColor="{Binding checkColor}" BorderWidth="5" BorderColor="{StaticResource AccentPrimary}" HeightRequest="24" WidthRequest="24" HorizontalOptions="Center" CornerRadius="12" Margin="5, 0" Clicked="TaskCheck" CommandParameter="{Binding .}" />
-                                        <Label Text="{Binding taskTitle}" LineBreakMode="TailTruncation" VerticalOptions="Center" TextDecorations="{Binding labelDecor}" Grid.Column="1" IsVisible="{Binding isntEditing}" BackgroundColor="Transparent" Margin="5, 10" />
+                                        <Label Text="{Binding item_name}" LineBreakMode="TailTruncation" VerticalOptions="Center" TextDecorations="{Binding labelDecor}" Grid.Column="1" IsVisible="{Binding isntEditing}" BackgroundColor="Transparent" Margin="5, 10" />
                                         <Button ImageSource="icon_edit.png" BackgroundColor="Transparent" Grid.Column="2" Clicked="TaskEdit" CommandParameter="{Binding .}" HeightRequest="36" WidthRequest="36" HorizontalOptions="Center" Padding="5" CornerRadius="18" Margin="5, 10" />
                                         <Button ImageSource="icon_delete.png" BackgroundColor="Transparent" Grid.Column="3" Clicked="TaskDelete" CommandParameter="{Binding .}" HeightRequest="36" WidthRequest="36" HorizontalOptions="Center" Padding="5" CornerRadius="18" Margin="5, 10" />
                                     </Grid>

@@ -33,38 +33,47 @@
 		            <Border Grid.Column="0" StrokeThickness="0">
 			            <VerticalStackLayout>
 				            <Image Source="icon_user.png" VerticalOptions="Start" WidthRequest="75" HeightRequest="75" Margin="5" />
-				            <Border HorizontalOptions="FillAndExpand" StrokeThickness="0">
-					            <Entry HorizontalOptions="Fill" WidthRequest="125" BackgroundColor="Transparent" Text="{Binding DisplayName}" x:Name="UserDisplay" TextChanged="OnFieldChanged" />
-				            </Border>
+				            <!-- <Border HorizontalOptions="FillAndExpand" StrokeThickness="0"> -->
+					           <!--  <Entry HorizontalOptions="Fill" WidthRequest="125" BackgroundColor="Transparent" Text="{Binding DisplayName}" x:Name="UserDisplay" TextChanged="OnFieldChanged" /> -->
+				            <!-- </Border> -->
 			            </VerticalStackLayout>
 		            </Border>
 
 		            <Border Grid.Column="1" StrokeThickness="0">
 			            <VerticalStackLayout Margin="0, 5">
+				            <!-- <Border Margin="0, 5" HorizontalOptions="FillAndExpand" StrokeThickness="0"> -->
+					           <!--  <Entry TextChanged="OnFieldChanged" BackgroundColor="Transparent" Text="{Binding Username}" x:Name="UserName" /> -->
+				            <!-- </Border> -->
 				            <Border Margin="0, 5" HorizontalOptions="FillAndExpand" StrokeThickness="0">
-					            <Entry TextChanged="OnFieldChanged" BackgroundColor="Transparent" Text="{Binding Username}" x:Name="UserName" />
-				            </Border>
-				            <Border Margin="0, 5" HorizontalOptions="FillAndExpand" StrokeThickness="0">
-					            <Entry TextChanged="OnFieldChanged" BackgroundColor="Transparent" Text="{Binding Email}" x:Name="UserEmail" />
-				            </Border>
-				            <Border Margin="0, 5" HorizontalOptions="FillAndExpand" StrokeThickness="0">
-					            <Grid>
-						            <Entry BackgroundColor="Transparent" TextChanged="OnFieldChanged" Placeholder="Password" Text="{Binding Password}" IsPassword="True" x:Name="UserPass" />
-						            <ImageButton Padding="0" Margin="5, 0" Source="icon_closedeye.png" HeightRequest="25" WidthRequest="25" x:Name="TogglePsswd" BackgroundColor="Transparent" HorizontalOptions="End" Clicked="TogglePassword" />
+					            <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+						            <Entry Grid.Column="0" BackgroundColor="Transparent" Text="{Binding FirstName}" IsReadOnly="True" />
+						            <Entry Grid.Column="1" BackgroundColor="Transparent" Text="{Binding LastName}" IsReadOnly="True" />
 					            </Grid>
 				            </Border>
+				            <Border Margin="0, 5" HorizontalOptions="FillAndExpand" StrokeThickness="0">
+					            <Entry BackgroundColor="Transparent" Text="{Binding Email}" IsReadOnly="True" />
+				            </Border>
+				            <!-- <Border Margin="0, 5" HorizontalOptions="FillAndExpand" StrokeThickness="0"> -->
+					           <!--  <Grid> -->
+						          <!--   <Entry BackgroundColor="Transparent" TextChanged="OnFieldChanged" Placeholder="Password" Text="{Binding Password}" IsPassword="True" x:Name="UserPass" /> -->
+						          <!--   <ImageButton Padding="0" Margin="5, 0" Source="icon_closedeye.png" HeightRequest="25" WidthRequest="25" x:Name="TogglePsswd" BackgroundColor="Transparent" HorizontalOptions="End" Clicked="TogglePassword" /> -->
+					           <!--  </Grid> -->
+				            <!-- </Border> -->
 
 				            <VerticalStackLayout Margin="0, 5">
 					            <Label Text="Account Created:" FontFamily="PoppinsBold" />
 					            <VerticalStackLayout Spacing="-7">
-						            <Label Text="{Binding AccountCreatedDate, StringFormat='{0:MMMM d, yyyy}'}" FontSize="Micro" FontFamily="PoppinsSemiBold" />
-						            <Label Text="{Binding AccountCreatedDate, StringFormat='{0:dddd}'}" FontSize="Micro" FontFamily="PoppinsRegular" />
+						            <VerticalStackLayout Margin="0, 5">
+							            <Label Text="Member since:" FontFamily="PoppinsBold" />
+							            <Label Text="{Binding JoinDate}" FontSize="Micro" FontFamily="PoppinsRegular" />
+						            </VerticalStackLayout>
 					            </VerticalStackLayout>
 				            </VerticalStackLayout>
 
 				            <VerticalStackLayout Margin="0, 5">
 					            <Label Text="Preferred Theme:" FontFamily="PoppinsBold" />
-					            <Picker BackgroundColor="Transparent" x:Name="ThemePicker" Title="Device Theme" SelectedIndexChanged="ToggleTheme">
+					            <Picker BackgroundColor="Transparent" x:Name="ThemePicker" 
+					                    Title="Device Theme" SelectedIndexChanged="ToggleTheme">
 						            <Picker.ItemsSource>
 							            <x:Array Type="{x:Type x:String}">
 								            <x:String>Light</x:String>
@@ -74,15 +83,15 @@
 						            </Picker.ItemsSource>
 					            </Picker>
 				            </VerticalStackLayout>
-				            <Label IsVisible = "False" x:Name="ErrorLabel" Margin="0" Padding="0">
-					            <Label.FormattedText>
-						            <FormattedString>
-							            <Span Text="Error: " FontFamily="PoppinsBold" FontSize="Micro" TextColor="{StaticResource Danger}" />
-							            <Span Text="{Binding ErrorText}" FontSize="Micro" TextColor="{StaticResource Danger}" />
-						            </FormattedString>
-					            </Label.FormattedText>    
-				            </Label>    
-				            <Button Text="Save Changes" Clicked="SaveProfile" x:Name="SaveBtn" BackgroundColor="{StaticResource Success}" IsVisible="False" />
+				            <!-- <Label IsVisible = "False" x:Name="ErrorLabel" Margin="0" Padding="0"> -->
+					           <!--  <Label.FormattedText> -->
+						          <!--   <FormattedString> -->
+							         <!--    <Span Text="Error: " FontFamily="PoppinsBold" FontSize="Micro" TextColor="{StaticResource Danger}" /> -->
+							         <!--    <Span Text="{Binding ErrorText}" FontSize="Micro" TextColor="{StaticResource Danger}" /> -->
+						          <!--   </FormattedString> -->
+					           <!--  </Label.FormattedText>     -->
+				            <!-- </Label>     -->
+				            <!-- <Button Text="Save Changes" Clicked="SaveProfile" x:Name="SaveBtn" BackgroundColor="{StaticResource Success}" IsVisible="False" /> -->
 
 			            </VerticalStackLayout>
 		            </Border>

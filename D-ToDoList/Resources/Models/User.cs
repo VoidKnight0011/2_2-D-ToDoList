@@ -1,19 +1,11 @@
-﻿using SQLite;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using Microsoft.Maui.ApplicationModel.Communication;
-
 namespace D_ToDoList;
-
-[Table("users")]
 public class User
 {
-    [PrimaryKey, AutoIncrement]
-    public int userID { get; set; }
-    public string userName { get; set; }
-    public string displayName {get; set;}
-    public string userEmail { get; set; }
-    public string password { get; set; }
-    public DateTime userCreated { get; set; }
-
-    public string preferredTheme { get; set; }
+    public int id { get; set; }
+    public string fname { get; set; }
+    public string lname { get; set; }
+    public string email { get; set; }
+    public string timemodified { get; set; }
 }

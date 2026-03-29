@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Syncfusion.Maui.Core.Hosting;
-using D_ToDoList.Resources.Database;
+using D_ToDoList.Resources.Services;
 using D_ToDoList.Resources.Pages;
 
 
@@ -22,7 +22,7 @@ public static class MauiProgram
                 fonts.AddFont("Poppins-Black.ttf", "PoppinsBlack");
                 fonts.AddFont("Poppins-SemiBold.ttf", "PoppinsSemiBold");
             });
-        builder.Services.AddSingleton<ToDoDB>();
+        builder.Services.AddSingleton<APIService>();
         builder.Services.AddSingleton<UserSession>();
         builder.Services.AddSingleton<MainPage>();
         builder.Services.AddTransient<LoginPage>();

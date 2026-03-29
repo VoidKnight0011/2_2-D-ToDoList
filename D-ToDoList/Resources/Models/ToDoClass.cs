@@ -1,113 +1,118 @@
-﻿using SQLite;
-using Microsoft.Maui;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text.Json.Serialization;
+using Microsoft.Maui;
+using Microsoft.Maui.Controls;
 
 namespace D_ToDoList;
 
-[Table("tasks")]
 public class ToDoClass : INotifyPropertyChanged
 {
-    // User Info
-    private int _userID;
-    
-    // Task Info
-    private int _taskID;
-    private string? _taskTitle;
-    private string? _taskDescription;
-    private bool _taskStatus;
+    private int _item_id;
+    private string? _item_name;
+    private string? _item_description;
+    private string? _status;
+    private int _user_id;
+    private string? _timemodified;
     private bool _isEditing;
-    private DateTime _taskDateCreated;
-
-    public int userID
-    {
-        get => _userID;
-        set => SetField(ref _userID, value);
-    }
-
-    [PrimaryKey, AutoIncrement]
-    public int taskID 
-    { 
-        get => _taskID; 
-        set => SetField(ref _taskID, value); 
-    }
-
-    public string? taskTitle 
-    { 
-        get => _taskTitle; 
-        set => SetField(ref _taskTitle, value); 
-    }
-
-    public string? taskDescription 
-    { 
-        get => _taskDescription; 
-        set => SetField(ref _taskDescription, value);
-    }
     
-    public DateTime taskDateCreated 
+    [JsonPropertyName("item_id")]
+    public int item_id 
     { 
-        get => _taskDateCreated; 
-        set => SetField(ref _taskDateCreated, value); 
+        get => _item_id; 
+        set => SetField(ref _item_id, value); 
     }
 
-    public bool taskStatus
+    [JsonPropertyName("item_name")]
+    public string? item_name 
+    { 
+        get => _item_name; 
+        set => SetField(ref _item_name, value); 
+    }
+
+    [JsonPropertyName("item_description")]
+    public string? item_description 
+    { 
+        get => _item_description; 
+        set => SetField(ref _item_description, value); 
+    }
+
+    [JsonPropertyName("user_id")]
+    public int user_id 
+    { 
+        get => _user_id; 
+        set => SetField(ref _user_id, value); 
+    }
+
+    [JsonPropertyName("timemodified")]
+    public string? timemodified 
+    { 
+        get => _timemodified; 
+        set => SetField(ref _timemodified, value); 
+    }
+
+    [JsonPropertyName("status")]
+    public string? status
     {
-        get => _taskStatus;
+        get => _status;
         set
         {
-            if (SetField(ref _taskStatus, value))
+            if (SetField(ref _status, value))
             {
                 OnPropertyChanged(nameof(checkColor));
                 OnPropertyChanged(nameof(labelDecor));
+                OnPropertyChanged(nameof(isCompleted));
             }
         }
     }
-
-    // [Ignore]
+    
+    [JsonIgnore]
     public bool isEditing
     {
         get => _isEditing;
-        set
-        {
-            if (SetField(ref _isEditing, value))
-            {
-                OnPropertyChanged(nameof(isntEditing));
-            }
+        set 
+        { 
+            if (SetField(ref _isEditing, value)) 
+                OnPropertyChanged(nameof(isntEditing)); 
         }
     }
 
-    [Ignore]
-    public bool isntEditing => !isEditing;
-
-    [Ignore]
-    public TextDecorations labelDecor => taskStatus ? TextDecorations.Strikethrough : TextDecorations.None;
-
-    [Ignore]
-    public Color statusColor => taskStatus ? Color.FromArgb("#16A34A") : Color.FromArgb("#DC2626");
+    [JsonIgnore]
+    public bool isCompleted => status == "inactive";
     
-    [Ignore]
-    public string status => taskStatus ? "Completed" : "Active";
-
-    [Ignore]
-    public Color checkColor => taskStatus ? Color.FromArgb("#4169E1") :
-        (Application.Current.RequestedTheme == AppTheme.Dark 
+    [JsonIgnore]
+    public bool isntEditing => !isEditing;
+    
+    [JsonIgnore]
+    public TextDecorations labelDecor => isCompleted ? TextDecorations.Strikethrough : TextDecorations.None;
+    
+    [JsonIgnore]
+    public Color statusColor => isCompleted ? Color.FromArgb("#16A34A") : Color.FromArgb("#DC2626");
+    
+    [JsonIgnore]
+    public string statusLabel => isCompleted ? "Completed" : "Active";
+    
+    [JsonIgnore]
+    public Color checkColor => isCompleted 
+        ? Color.FromArgb("#4169E1") 
+        : (Application.Current?.RequestedTheme == AppTheme.Dark 
             ? Color.FromArgb("#222834") 
             : Color.FromArgb("#F5F7FB"));
 
-    public event PropertyChangedEventHandler PropertyChanged;
-    protected void OnPropertyChanged([CallerMemberName] string propertyName = null) 
+    public event PropertyChangedEventHandler? PropertyChanged;
+    
+    protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-    protected bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
+    protected bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
     {
-        if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+        if (EqualityComparer<T>.Default.Equals(field, value)) 
+            return false;
+        
         field = value;
         OnPropertyChanged(propertyName);
         return true;
     }
-    
-    public void RefreshColors()
-    {
-        OnPropertyChanged(nameof(checkColor));
-    }
+
+    public void RefreshColors() => OnPropertyChanged(nameof(checkColor));
 }
