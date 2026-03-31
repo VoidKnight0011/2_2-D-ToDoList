@@ -39,14 +39,6 @@
                         <Label Text="{Binding status, StringFormat='● {0}'}" FontFamily="PoppinsSemiBold" FontSize="Small" TextColor="{Binding statusColor}" />
                     </VerticalStackLayout>
                 </Border>
-                
-                <!-- Right -->
-                <Border Grid.Column = "1" StrokeThickness="0">
-                    <VerticalStackLayout Margin="10, 20">
-                        <Label Text="Date Created:" FontFamily="PoppinsBlack" />
-                        <Label Text="{Binding timemodified}" FontSize="Small" FontFamily="PoppinsSemiBold" />
-                    </VerticalStackLayout>
-                </Border>
             </Grid>
         </Border>    
         
